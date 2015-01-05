@@ -87,9 +87,9 @@ bool HelloWorld::init()
 
 	perform->initializeMainCharacter("Main.png");
 	perform->putinMainCharacter(this, map->getObjectPosition("Hero","Pst"));
-	auto NPC1 = new Character("NPC.png","NPC1");
+	auto NPC1 = new Character("NPC.png");
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC1"), NPC1);
-	auto NPC2 = new Character("TNPC.png","NPC2");
+	auto NPC2 = new Character("TNPC.png");
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC2"), NPC2);
 	
 

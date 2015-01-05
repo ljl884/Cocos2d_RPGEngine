@@ -3,11 +3,6 @@
 
 
 using namespace cocos2d;
-Character::Character(std::string filename, std::string _id)
-{
-	id = _id;
-	Character::Character(filename);
-}
 Character::Character(std::string _filename)
 {
 	if ("" == id)
@@ -53,6 +48,11 @@ Character::Character(std::string _filename)
 		animFrames.clear();
 	}
 	
+}
+
+void Character::setId(std::string newId)
+{
+	id = newId;
 }
 
 void Character::setPosition(cocos2d::CCPoint position)

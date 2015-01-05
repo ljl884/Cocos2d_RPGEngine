@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Stage.h"
 
+
 #define MAX_MOVING_DISTANCE 1000
 #define MOVING_SPEED 80
 #define STEP_DISTANCE 15
@@ -24,9 +25,10 @@ public:
 	bool mainCharacter;
 
 	Character(std::string filename);
-	Character(std::string filename, std::string id);
+
 	
 	std::string getId();
+	void setId(std::string newId);
 	cocos2d::Point getPosition();
 	void updatePoint(cocos2d::CCPoint newpoint);
 	void setPosition(cocos2d::CCPoint position);

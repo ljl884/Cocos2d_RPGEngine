@@ -1,8 +1,6 @@
 #include "Stage.h"
 
-#define PROPERTIE_BLOCKED "Blocked"
-#define BLOCK_LAYER "Block"
-#define TRUE "True"
+
 
 
 Stage* Stage::create(std::string name){
@@ -65,6 +63,21 @@ bool Stage::isPositionBlocked(Point position)
 			}
 		}
 	}
+
+	//NPC Position
+	if (NULL != unavailablePositions)
+	{
+		std::list<Point>::iterator i;
+		for (i = unavailablePositions->begin(); i != unavailablePositions->end(); i++)
+		{
+			Point tempPoint = *i;
+			if (fabs(position.x - tempPoint.x) < NPC_COLLISION_WIDTH && fabs(position.y - tempPoint.y) < NPC_COLLISION_HIGHT)
+				return true;
+				
+		}
+	}
+	//
+
 	return false;
 }
 
@@ -75,3 +88,7 @@ Point Stage::tileCoordForPosition(Point position)
 	return Point(x, y);
 }
 
+void Stage::setUnavailablePositions(std::list<Point> *_unavailablePositions)
+{
+	unavailablePositions = _unavailablePositions;
+}

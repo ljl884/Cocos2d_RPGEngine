@@ -21,11 +21,14 @@ public:
 	void putinCharacter(Node *node, CCPoint position, Character *character);
 	void onMovingCallback();
 	void activate();
-
+	std::list<Point> getNPCPositionList();
 protected:
 	Stage *stage;
 	Character *mainCharacter;
 	std::list<Character*> NPCList;
+	std::list<Point> NPCPositionList;
+	void updateNPCPositionList();
+	
 
 
 };
