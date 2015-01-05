@@ -12,11 +12,18 @@ void Perform::setStage(Stage *_stage)
 {
 	stage = _stage;
 }
+
+void Perform::setDialog(Dialog *_dialog)
+{
+	dialog = _dialog;
+}
+
+
 void Perform::initializeMainCharacter(std::string filename)
 {
 	mainCharacter = new Character(filename);
 }
-void Perform::putinCharacter(Node *node, CCPoint position, Character *character)
+void Perform::putinCharacter(Node *node, Point position, Character *character)
 {
 	character->setPosition(position);
 	node->addChild(character->character);
@@ -29,7 +36,7 @@ void Perform::putinCharacter(Node *node, CCPoint position, Character *character)
 	}
 		
 }
-void Perform::putinMainCharacter(Node *node, CCPoint position)
+void Perform::putinMainCharacter(Node *node, Point position)
 {
 	if (NULL != mainCharacter){
 		mainCharacter->setPosition(position);
@@ -65,6 +72,33 @@ void Perform::stopMovingMainCharacter()
 	mainCharacter->stopMoving();
 }
 
+void Perform::onArrowButtonPressed(Character_Direction direction)
+{
+	if (operationStatus == freeMoving)
+		startMovingMainCharacter(direction);
+}
+void Perform::onArrowButtonReleased(Character_Direction direction)
+{
+	if (operationStatus == freeMoving)
+		stopMovingMainCharacter(direction);
+}
+void Perform::onActionButtonPressed()
+{
+	bool dialogEnded;
+	switch (operationStatus)
+	{
+	case freeMoving:
+		activate();
+		break;
+	case DisplayingDialog:
+		dialogEnded = dialog->nextPage();
+		if (dialogEnded)
+			operationStatus = freeMoving;
+		break;
+	default:
+		break;
+	}
+}
 void Perform::activate()
 {
 	if (mainCharacter == NULL)
@@ -99,6 +133,15 @@ void Perform::activate()
 		if (fabs(NPCPosition.x - destination.x) < NPC_ACTIVATE_DISTANCE_X && fabs(NPCPosition.y - destination.y) < NPC_ACTIVATE_DISTANCE_Y)
 		{
 			tempCharacter->changeFacingDirection(newFacingDirection);
+			//dialog->display(tempCharacter->getWords());
+			operationStatus = DisplayingDialog;
+			std::list<std::string> list;
+			list.push_back("1111111");
+			list.push_back("2222222");
+			list.push_back("3333333");
+
+			dialog->display(list);
+
 			return;
 		}
 	}

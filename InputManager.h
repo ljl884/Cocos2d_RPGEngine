@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-class InputManager : public CCLayer{
+class InputManager : public Layer{
 public:
 	InputManager();
 	void bindPerformer(Perform *perform);

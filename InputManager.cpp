@@ -17,20 +17,19 @@ void InputManager::onKeyPressed(EventKeyboard::KeyCode keycode, Event *event)
 {
 	switch (keycode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		perform->startMovingMainCharacter(up);
+		perform->onArrowButtonPressed(up);
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		perform->startMovingMainCharacter(down);
+		perform->onArrowButtonPressed(down);
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		perform->startMovingMainCharacter(left);
+		perform->onArrowButtonPressed(left);
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		perform->startMovingMainCharacter(right);
+		perform->onArrowButtonPressed(right);
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		//if (status==free)
-		perform->activate();
+		perform->onActionButtonPressed();
 		break;
 	default:
 		break;
@@ -41,16 +40,16 @@ void InputManager::onKeyReleased(EventKeyboard::KeyCode keycode, Event *event)
 {
 	switch (keycode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		perform->stopMovingMainCharacter(up);
+		perform->onArrowButtonReleased(up);
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		perform->stopMovingMainCharacter(down);
+		perform->onArrowButtonReleased(down);
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		perform->stopMovingMainCharacter(left);
+		perform->onArrowButtonReleased(left);
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		perform->stopMovingMainCharacter(right);
+		perform->onArrowButtonReleased(right);
 		break;
 	default:
 		break;

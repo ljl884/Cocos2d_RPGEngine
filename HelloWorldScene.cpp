@@ -6,6 +6,7 @@
 #include "ui/CocosGUI.h"//UI相关的头文件 
 #include"cocostudio/CocoStudio.h"//在CocosStudio.h 头文件中已经包含了Studio所需要的各个头文件(除CocosGUI)因此我们使用Studio仅需要包含他就可以 
 #include"Box2D/Box2D.h"
+#include "Dialog.h"
 
 using namespace cocos2d;//CSLoader位于cocos2d命名空间。 
 using namespace cocostudio::timeline;//动画相关的类位于cocostuio::timeline当中 
@@ -79,8 +80,12 @@ bool HelloWorld::init()
 
 	this->addChild(input);
 
+	auto dialog = new Dialog("dialogbar.png");
+	this->addChild(dialog, 0, "Dialog");
+
 	auto perform = new Perform();
 	perform->setStage(map);
+	perform->setDialog(dialog);
 
 	input->bindPerformer(perform);
 
@@ -91,6 +96,7 @@ bool HelloWorld::init()
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC1"), NPC1);
 	auto NPC2 = new Character("TNPC.png");
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC2"), NPC2);
+	
 	
 
 
@@ -111,7 +117,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //Director::getInstance()->end();
 
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();  
+	Size winSize = Director::sharedDirector()->getWinSize();  
 
 
 	
@@ -121,7 +127,8 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 	//sprite2->moveTo(3,ccp(0,0));
 	sprite2->moveToDirection(down);
-
+	
+	
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -129,7 +136,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-void HelloWorld::spriteMoveFinished(cocos2d::CCNode *sender){
-	CCSprite *sprite = (CCSprite *)sender;
+void HelloWorld::spriteMoveFinished(cocos2d::Node *sender){
+	Sprite *sprite = (Sprite *)sender;
 	this->removeChild(sprite, true);
 }
