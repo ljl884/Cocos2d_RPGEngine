@@ -3,10 +3,28 @@
 
 
 
-Stage* Stage::create(std::string name){
+Stage* Stage::create(std::string name,std::string mapImageFilename){
 	auto stage = new Stage();
 	stage->bindTMXTiledMap(name);
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(mapImageFilename);
+	auto mapImg = Sprite::createWithTexture(texture);
+	mapImg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	stage->bindMapImage(mapImg);
+	
 	return stage;
+}
+
+void Stage::bindMapImage(Sprite *mapImage)
+{
+	mapImg = mapImage;
+	if (NULL != mapImg)
+	{
+		mapSize = mapImg->getContentSize();
+		this->addChild(mapImage);
+
+	}
 }
 void Stage::bindTMXTiledMap(TMXTiledMap *tmxmap)
 {

@@ -136,9 +136,9 @@ void Perform::activate()
 			//dialog->display(tempCharacter->getWords());
 			operationStatus = DisplayingDialog;
 			std::list<std::string> list;
-			list.push_back("1111111");
-			list.push_back("2222222");
-			list.push_back("3333333");
+			list.push_back("HAHAHAHAHAAHAHA");
+			list.push_back("Who cares?");
+			list.push_back("This is just for testing");
 
 			dialog->display(list);
 

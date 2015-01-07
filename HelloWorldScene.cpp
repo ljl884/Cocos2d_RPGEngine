@@ -7,6 +7,7 @@
 #include"cocostudio/CocoStudio.h"//在CocosStudio.h 头文件中已经包含了Studio所需要的各个头文件(除CocosGUI)因此我们使用Studio仅需要包含他就可以 
 #include"Box2D/Box2D.h"
 #include "Dialog.h"
+#include "XMLParser.h"
 
 using namespace cocos2d;//CSLoader位于cocos2d命名空间。 
 using namespace cocostudio::timeline;//动画相关的类位于cocostuio::timeline当中 
@@ -40,16 +41,19 @@ bool HelloWorld::init()
         return false;
     }
     
-	
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	
-	Node *node = CSLoader::createNode("MainScene.csb");
-	this->addChild(node);
+	//Node *node = CSLoader::createNode("MainScene.csb");
+	//this->addChild(node);
 
 	//import Map
 	//auto map = TMXTiledMap::create("map.tmx");
 	//this->addChild(map);
-	auto map = Stage::create("map.tmx");
+	
+	
+	auto map = Stage::create("map.tmx","BMap.jpg");
 	this->addChild(map);
 	map->initialize();
 	map->setLayerVisibility("Layer1", false);
@@ -58,8 +62,7 @@ bool HelloWorld::init()
 
 
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
 
 
     auto closeItem = MenuItemImage::create(
@@ -94,6 +97,10 @@ bool HelloWorld::init()
 	perform->putinMainCharacter(this, map->getObjectPosition("Hero","Pst"));
 	auto NPC1 = new Character("NPC.png");
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC1"), NPC1);
+	
+	XMLParser *parser = new XMLParser();
+	
+	//auto NPC2 = new Character(parser->getNPCImageUrl("NPC2"));
 	auto NPC2 = new Character("TNPC.png");
 	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC2"), NPC2);
 	

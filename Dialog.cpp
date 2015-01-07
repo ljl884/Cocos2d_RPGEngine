@@ -1,7 +1,7 @@
 #include "Dialog.h"
 
 #define DIALOG_FONT_SIZE 20
-#define DIALOG_FONT "fonts/Marker Felt.ttf"
+#define DIALOG_FONT "fonts/STXINWEI.ttf"
 
 Dialog::Dialog(std::string dialogBarFilename)
 {
