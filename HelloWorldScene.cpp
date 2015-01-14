@@ -1,13 +1,15 @@
 #include "HelloWorldScene.h"
+
 #include "Character.h"
 #include "Perform.h"
 #include "Stage.h"
 #include "InputManager.h"
-#include "ui/CocosGUI.h"//UI相关的头文件 
-#include"cocostudio/CocoStudio.h"//在CocosStudio.h 头文件中已经包含了Studio所需要的各个头文件(除CocosGUI)因此我们使用Studio仅需要包含他就可以 
+#include "ui/CocosGUI.h"
+#include"cocostudio/CocoStudio.h" 
 #include"Box2D/Box2D.h"
 #include "Dialog.h"
 #include "XMLParser.h"
+#include "InformationCenter.h"
 
 using namespace cocos2d;//CSLoader位于cocos2d命名空间。 
 using namespace cocostudio::timeline;//动画相关的类位于cocostuio::timeline当中 
@@ -92,6 +94,8 @@ bool HelloWorld::init()
 
 	input->bindPerformer(perform);
 
+	InformationCenter *ic = InformationCenter::getInstance();
+	ic->setPerformer(perform);
 
 	perform->initializeMainCharacter("Main.png");
 	perform->putinMainCharacter(this, map->getObjectPosition("Hero","Pst"));

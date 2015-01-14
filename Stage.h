@@ -25,6 +25,7 @@ public:
 	bool isPositionBlocked(Point position);
 	void setUnavailablePositions(std::list<Point> *unavailablePositions);
 
+
 protected:
 	TMXTiledMap *map;
 	Sprite *mapImg;

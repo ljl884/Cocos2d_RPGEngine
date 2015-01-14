@@ -133,6 +133,9 @@ void Character::moveToDirectionBy(float duration,Character_Direction direction, 
 
 void Character::moveoverCallBack(void)
 {
+	InformationCenter *ic = InformationCenter::getInstance();
+	ic->moveOver();
+	//attempting moving on
 	if (isNextPositionBlocked())
 	{
 		isMoving = false;

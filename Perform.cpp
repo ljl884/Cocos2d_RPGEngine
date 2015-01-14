@@ -51,6 +51,7 @@ void Perform::onMovingCallback()
 }
 void Perform::startMovingMainCharacter(Character_Direction direction)
 {
+	
 	mainCharacter->stopMoving();
 	mainCharacter->changeFacingDirection(direction);
 	Point nextPosition;

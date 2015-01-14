@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Stage.h"
+#include "InformationCenter.h"
 
 
 #define MAX_MOVING_DISTANCE 1000
