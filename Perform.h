@@ -41,6 +41,7 @@ protected:
 	std::list<Character*> NPCList;
 	std::list<Point> NPCPositionList;
 	void updateNPCPositionList();
+	bool isNextPositionBlocked(Character_Direction direction);
 	Operation_Status operationStatus = freeMoving;
 
 

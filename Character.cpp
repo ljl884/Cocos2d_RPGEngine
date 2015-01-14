@@ -59,10 +59,6 @@ void Character::setPosition(cocos2d::CCPoint position)
 {
 	character->setPosition(position);
 }
-void Character::setStage(Stage *_currentStage)
-{
-	currentStage = _currentStage;
-}
 void Character::changeFacingDirection(Character_Direction newDirection)
 {
 	facingDirection = newDirection;
@@ -134,18 +130,7 @@ void Character::moveToDirectionBy(float duration,Character_Direction direction, 
 void Character::moveoverCallBack(void)
 {
 	InformationCenter *ic = InformationCenter::getInstance();
-	ic->moveOver();
-	//attempting moving on
-	if (isNextPositionBlocked())
-	{
-		isMoving = false;
-		stopMoving();
-	}
-	if (isMoving)
-	{
-		moveToDirectionBy(movingDirection, STEP_DISTANCE);
-	}
-		
+	ic->moveOver();		
 }
 
 void Character::playMovingAnimation(Character_Direction direction)
@@ -176,43 +161,6 @@ void Character::stopMoving()
 	
 }
 
-bool Character::isNextPositionBlocked()
-{
-	Point nextPosition;
-	Point currentPosition;
-	currentPosition = character->getPosition();
-	int x = currentPosition.x;
-	int y = currentPosition.y;
-
-	
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (((movingDirection ==left) &&  x<45) || 
-		((movingDirection == right) && x>visibleSize.width - 45) ||
-		((movingDirection == down) && y<45) ||
-		((movingDirection == up) && y>visibleSize.height - 45))
-		return true;
-	if (NULL == currentStage)
-		return false;
-	switch (movingDirection)
-	{
-	case up:
-		nextPosition = ccp(x, y + STEP_DISTANCE);
-		break;
-	case down:
-		nextPosition = ccp(x, y - STEP_DISTANCE);
-		break;
-	case left:
-		nextPosition = ccp(x - STEP_DISTANCE, y);
-		break;
-	case right:
-		nextPosition = ccp(x + STEP_DISTANCE, y);
-		break;
-	default:
-		break;
-	}
-	
-	return currentStage->isPositionBlocked(nextPosition);
-}
 
 Point Character::getPosition()
 {

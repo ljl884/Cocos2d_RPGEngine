@@ -46,21 +46,30 @@ void Perform::putinMainCharacter(Node *node, Point position)
 }
 void Perform::onMovingCallback()
 {
-	CCLOG("action  end!!!!!");
-
+	//CCLOG("action  end!!!!!");
+	startMovingMainCharacter(mainCharacter->movingDirection);
 }
 void Perform::startMovingMainCharacter(Character_Direction direction)
 {
 	
-	mainCharacter->stopMoving();
-	mainCharacter->changeFacingDirection(direction);
 	Point nextPosition;
 	Point currentPosition;
-	mainCharacter->setStage(stage);
 	mainCharacter->isMoving = true;
 	mainCharacter->movingDirection = direction;
-	mainCharacter->playMovingAnimation(direction);
-	mainCharacter->moveoverCallBack();	
+	
+	if (isNextPositionBlocked(mainCharacter->movingDirection))
+	{
+		mainCharacter->isMoving = false;
+		mainCharacter->stopMoving();
+	}
+		
+	if (mainCharacter->isMoving)
+	{
+		
+		mainCharacter->moveToDirectionBy(mainCharacter->movingDirection, STEP_DISTANCE);
+	}
+	
+	//mainCharacter->moveoverCallBack();	
 }
 void Perform::stopMovingMainCharacter(Character_Direction direction)
 {
@@ -76,7 +85,13 @@ void Perform::stopMovingMainCharacter()
 void Perform::onArrowButtonPressed(Character_Direction direction)
 {
 	if (operationStatus == freeMoving)
+	{
+		mainCharacter->stopMoving();
+		mainCharacter->changeFacingDirection(direction);
+		mainCharacter->playMovingAnimation(direction);
 		startMovingMainCharacter(direction);
+	}
+		
 }
 void Perform::onArrowButtonReleased(Character_Direction direction)
 {
@@ -99,6 +114,44 @@ void Perform::onActionButtonPressed()
 	default:
 		break;
 	}
+}
+
+bool Perform::isNextPositionBlocked(Character_Direction direction)
+{
+	Point nextPosition;
+	Point currentPosition;
+	currentPosition = mainCharacter->getPosition();
+	int x = currentPosition.x;
+	int y = currentPosition.y;
+
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	if (((direction == left) && x<45) ||
+		((direction == right) && x>visibleSize.width - 45) ||
+		((direction == down) && y<45) ||
+		((direction == up) && y>visibleSize.height - 45))
+		return true;
+	if (NULL == stage)
+		return false;
+	switch (direction)
+	{
+	case up:
+		nextPosition = ccp(x, y + STEP_DISTANCE);
+		break;
+	case down:
+		nextPosition = ccp(x, y - STEP_DISTANCE);
+		break;
+	case left:
+		nextPosition = ccp(x - STEP_DISTANCE, y);
+		break;
+	case right:
+		nextPosition = ccp(x + STEP_DISTANCE, y);
+		break;
+	default:
+		break;
+	}
+
+	return stage->isPositionBlocked(nextPosition);
 }
 void Perform::activate()
 {

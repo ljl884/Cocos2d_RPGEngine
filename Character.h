@@ -2,7 +2,6 @@
 #define __CHARACTER_H__
 
 #include "cocos2d.h"
-#include "Stage.h"
 #include "InformationCenter.h"
 
 
@@ -45,14 +44,12 @@ public:
 	bool isMoving = false;
 	void moveoverCallBack(void);
 	bool isNextPositionBlocked();
-	void setStage(Stage *currentStage);
 	Character_Direction facingDirection;
 	Character_Direction movingDirection;
 
 protected:
 	std::string id;
 	std::string filename;
-	Stage *currentStage;
 	
 	
 	
