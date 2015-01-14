@@ -55,11 +55,11 @@ bool HelloWorld::init()
 	//this->addChild(map);
 	
 	
-	auto map = Stage::create("map.tmx","BMap.jpg");
+	auto map = Stage::create("bmap.tmx","BMap.jpg");
 	this->addChild(map);
-	map->initialize();
+	
 	map->setLayerVisibility("Layer1", false);
-	map->setLayerVisibility("Block", false);
+	map->setLayerVisibility("Block", true);
 
 
 
@@ -139,7 +139,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 	//sprite2->moveTo(3,ccp(0,0));
 	sprite2->moveToDirection(down);
 	
-	
+
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

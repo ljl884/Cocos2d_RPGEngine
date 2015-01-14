@@ -26,7 +26,9 @@ void Perform::initializeMainCharacter(std::string filename)
 void Perform::putinCharacter(Node *node, Point position, Character *character)
 {
 	character->setPosition(position);
-	node->addChild(character->character);
+	//node->addChild(character->character);
+	stage->putInCharacter(character->character);
+	
 	NPCList.push_back(character);
 	updateNPCPositionList();
 	if (stage != NULL)
@@ -40,7 +42,8 @@ void Perform::putinMainCharacter(Node *node, Point position)
 {
 	if (NULL != mainCharacter){
 		mainCharacter->setPosition(position);
-		node->addChild(mainCharacter->character);
+		//node->addChild(mainCharacter->character);
+		stage->putInCharacter(mainCharacter->character);
 	}
 	
 }
@@ -69,7 +72,6 @@ void Perform::startMovingMainCharacter(Character_Direction direction)
 		mainCharacter->moveToDirectionBy(mainCharacter->movingDirection, STEP_DISTANCE);
 	}
 	
-	//mainCharacter->moveoverCallBack();	
 }
 void Perform::stopMovingMainCharacter(Character_Direction direction)
 {
@@ -125,11 +127,11 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	int y = currentPosition.y;
 
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Size mapSize = stage->getContentSize();
 	if (((direction == left) && x<45) ||
-		((direction == right) && x>visibleSize.width - 45) ||
+		((direction == right) && x>mapSize.width - 45) ||
 		((direction == down) && y<45) ||
-		((direction == up) && y>visibleSize.height - 45))
+		((direction == up) && y>mapSize.height - 45))
 		return true;
 	if (NULL == stage)
 		return false;

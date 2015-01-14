@@ -24,6 +24,7 @@ public:
 	Point tileCoordForPosition(Point position);
 	bool isPositionBlocked(Point position);
 	void setUnavailablePositions(std::list<Point> *unavailablePositions);
+	void putInCharacter(Sprite * character);
 
 
 protected:

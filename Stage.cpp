@@ -5,11 +5,15 @@
 
 Stage* Stage::create(std::string name,std::string mapImageFilename){
 	auto stage = new Stage();
-	stage->bindTMXTiledMap(name);
+	auto map = TMXTiledMap::create(name);
+	stage->map = map;
+	stage->addChild(map);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(mapImageFilename);
 	auto mapImg = Sprite::createWithTexture(texture);
+	Size imageSize = mapImg->getContentSize();
+	stage->setContentSize(imageSize);
 	mapImg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
 	stage->bindMapImage(mapImg);
 	
@@ -41,11 +45,6 @@ void Stage::bindTMXTiledMap(std::string tmxfilename)
 	bindTMXTiledMap(map);
 }
 
-void Stage::initialize()
-{
-	if (NULL != getParent())
-		getParent()->addChild(map);
-}
 
 Point Stage::getObjectPosition(std::string objectGroupName, std::string objectName)
 {
@@ -109,4 +108,9 @@ Point Stage::tileCoordForPosition(Point position)
 void Stage::setUnavailablePositions(std::list<Point> *_unavailablePositions)
 {
 	unavailablePositions = _unavailablePositions;
+}
+
+void Stage::putInCharacter(Sprite *character)
+{
+	mapImg->addChild(character);
 }
