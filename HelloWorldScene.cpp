@@ -56,6 +56,7 @@ bool HelloWorld::init()
 	
 	
 	auto map = Stage::create("bmap.tmx","BMap.jpg");
+	Point p  = map->getPosition();
 	this->addChild(map);
 	
 	map->setLayerVisibility("Layer1", false);

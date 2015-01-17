@@ -2,6 +2,8 @@
 
 #define NPC_ACTIVATE_DISTANCE_X 30
 #define NPC_ACTIVATE_DISTANCE_Y 50
+#define MAP_SCROLL_DISTANCE 100
+#define MAP_SCROLL_STEP 300
 
 void Perform::setMainCharacter(Character *_mainCharacter)
 {
@@ -43,7 +45,7 @@ void Perform::putinMainCharacter(Node *node, Point position)
 	if (NULL != mainCharacter){
 		mainCharacter->setPosition(position);
 		//node->addChild(mainCharacter->character);
-		stage->putInCharacter(mainCharacter->character);
+		stage->putInMainCharacter(mainCharacter->character);
 	}
 	
 }
@@ -64,14 +66,49 @@ void Perform::startMovingMainCharacter(Character_Direction direction)
 	{
 		mainCharacter->isMoving = false;
 		mainCharacter->stopMoving();
+		stage->stopScrolling();
 	}
 		
 	if (mainCharacter->isMoving)
 	{
-		
+		if (mapShouldScroll(mainCharacter->movingDirection))
+		{
+			int scrollDistance;
+			int remainingDistanceToMapEdge = this->remainingDistanceToMapEdge(mainCharacter->movingDirection);
+				if (remainingDistanceToMapEdge > MAP_SCROLL_STEP)
+				scrollDistance = MAP_SCROLL_STEP;
+			else
+				scrollDistance = remainingDistanceToMapEdge;
+			stage->isScrolling = true;
+			stage->scrollToDirectionBy(CharacterDirectionToDirection(mainCharacter->movingDirection), scrollDistance);
+		}
+		else
 		mainCharacter->moveToDirectionBy(mainCharacter->movingDirection, STEP_DISTANCE);
 	}
 	
+}
+
+Direction Perform::CharacterDirectionToDirection(Character_Direction cd)
+{
+	Direction direction;
+	switch (cd)
+	{
+	case up:
+		direction = UP;
+		break;
+	case down:
+		direction = DOWN;
+		break;
+	case left:
+		direction = LEFT;
+		break;
+	case right:
+		direction = RIGHT;
+		break;
+	default:
+		break;
+	}
+	return direction;
 }
 void Perform::stopMovingMainCharacter(Character_Direction direction)
 {
@@ -81,13 +118,16 @@ void Perform::stopMovingMainCharacter(Character_Direction direction)
 void Perform::stopMovingMainCharacter()
 {
 	mainCharacter->isMoving = false;
+	stage->isScrolling = false;
 	mainCharacter->stopMoving();
+	stage->stopScrolling();
 }
 
 void Perform::onArrowButtonPressed(Character_Direction direction)
 {
 	if (operationStatus == freeMoving)
 	{
+		stage->stopScrolling();
 		mainCharacter->stopMoving();
 		mainCharacter->changeFacingDirection(direction);
 		mainCharacter->playMovingAnimation(direction);
@@ -123,6 +163,7 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	Point nextPosition;
 	Point currentPosition;
 	currentPosition = mainCharacter->getPosition();
+//	currentPosition = stage->convertToNodeSpace(mainCharacter->getPosition());
 	int x = currentPosition.x;
 	int y = currentPosition.y;
 
@@ -154,6 +195,67 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	}
 
 	return stage->isPositionBlocked(nextPosition);
+}
+
+bool Perform::mapShouldScroll(Character_Direction direction)
+{
+	Point position = mainCharacter->character->convertToWorldSpace(ccp(0,0));//main character's world position
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Size mapSize = stage->getContentSize();
+	Point mapPostion = stage->getPosition();
+	int y = mapPostion.y;
+	int x = mapPostion.x;
+	
+	switch (direction)
+	{
+	case up:
+		if (position.y > visibleSize.height - MAP_SCROLL_DISTANCE && (0.5*mapSize.height + y - 0.5*visibleSize.height)>STEP_DISTANCE)
+			return true;
+		break;
+	case down:
+		if (position.y < MAP_SCROLL_DISTANCE && (0.5*mapSize.height-y-0.5*visibleSize.height)>STEP_DISTANCE)
+			return true;
+		break;
+	case left:
+		if (position.x < MAP_SCROLL_DISTANCE && (0.5*mapSize.width -x -0.5*visibleSize.width)>STEP_DISTANCE)
+			return true;
+		break;
+	case right:
+		if (position.x > visibleSize.width - MAP_SCROLL_DISTANCE && (0.5*mapSize.width + x - 0.5*visibleSize.width)>STEP_DISTANCE)
+			return true;
+		break;
+	default:
+		break;
+	}
+	return false;
+}
+int Perform::remainingDistanceToMapEdge(Character_Direction direction)
+{
+	Point position = mainCharacter->character->convertToWorldSpace(ccp(0, 0));//main character's world position
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Size mapSize = stage->getContentSize();
+	Point mapPostion = stage->getPosition();
+	int y = mapPostion.y;
+	int x = mapPostion.x;
+
+	switch (direction)
+	{
+	case up:
+		return  (0.5*mapSize.height + y - 0.5*visibleSize.height);
+		break;
+	case down:
+		return (0.5*mapSize.height - y - 0.5*visibleSize.height);
+		break;
+	case left:
+		return (0.5*mapSize.width - x - 0.5*visibleSize.width);
+		break;
+	case right:
+		return (0.5*mapSize.width + x - 0.5*visibleSize.width);
+		break;
+	default:
+		return -1;
+		break;
+	}
 }
 void Perform::activate()
 {

@@ -33,6 +33,7 @@ public:
 	void onActionButtonPressed();
 	void onArrowButtonPressed(Character_Direction direction);
 	void onArrowButtonReleased(Character_Direction direction);
+	Direction CharacterDirectionToDirection(Character_Direction cd);
 	std::list<Point> getNPCPositionList();
 protected:
 	Stage *stage;
@@ -42,6 +43,8 @@ protected:
 	std::list<Point> NPCPositionList;
 	void updateNPCPositionList();
 	bool isNextPositionBlocked(Character_Direction direction);
+	bool mapShouldScroll(Character_Direction direction);
+	int remainingDistanceToMapEdge(Character_Direction direction);
 	Operation_Status operationStatus = freeMoving;
 
 

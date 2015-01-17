@@ -1,7 +1,6 @@
 #include "Stage.h"
 
-
-
+#define SCROLLING_SPEED 300  
 
 Stage* Stage::create(std::string name,std::string mapImageFilename){
 	auto stage = new Stage();
@@ -113,4 +112,58 @@ void Stage::setUnavailablePositions(std::list<Point> *_unavailablePositions)
 void Stage::putInCharacter(Sprite *character)
 {
 	mapImg->addChild(character);
+}
+void Stage::putInMainCharacter(Sprite *character)
+{
+	mapImg->addChild(character);
+	mainCharacter = character;
+}
+
+void Stage::scrollToDirectionBy(Direction direction, int distance)
+{
+	scrollToDirectionBy((float)distance / SCROLLING_SPEED, direction, distance);
+}
+
+void Stage::scrollToDirectionBy(float duration, Direction direction, int distance)
+{
+	float x = 0, y = 0;
+	this->getPosition(&x, &y);
+	switch (direction)
+	{
+	case UP:
+		scrollTo(duration, ccp(x, y - distance));
+		break;
+	case DOWN:
+		scrollTo(duration, ccp(x, y + distance));
+		break;
+	case LEFT:
+		scrollTo(duration, ccp(x + distance, y));
+		break;
+	case RIGHT:
+		scrollTo(duration, ccp(x - distance, y));
+		break;
+	default:
+		break;
+	}
+}
+
+void Stage::scrollTo(float duration, Point distination)
+{
+	CCFiniteTimeAction *actionMove = CCMoveTo::create(duration, distination);
+	auto callfunc = CallFunc::create(CC_CALLBACK_0(Stage::scrollOverCallBack, this));
+	auto action = Sequence::create(actionMove, callfunc, NULL);
+	this->runAction(action);
+	//mainCharacter->stopAction(action);
+	
+}
+
+void Stage::stopScrolling()
+{
+	isScrolling = false;
+	this->stopAllActions();
+}
+void Stage::scrollOverCallBack(void)
+{
+	InformationCenter *ic = InformationCenter::getInstance();
+	ic->moveOver();
 }

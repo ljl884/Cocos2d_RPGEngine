@@ -9,7 +9,7 @@
 #define MOVING_SPEED 80
 #define STEP_DISTANCE 15
 
-enum Character_Direction
+enum  Character_Direction
 {
 	up = 0,
 	down = 1,
