@@ -5,6 +5,7 @@
 #include "Stage.h"
 #include "Character.h"
 #include "Dialog.h"
+#include "SceneBuilder.h"
 
 using namespace cocos2d;
 
