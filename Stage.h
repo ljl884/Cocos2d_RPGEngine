@@ -5,7 +5,9 @@
 #include "InformationCenter.h"
 
 #define PROPERTIE_BLOCKED "Blocked"
+#define PROPERTIE_BRIDGE "SceneId"
 #define BLOCK_LAYER "Block"
+#define BRIDGE_LAYER "Bridge"
 #define TRUE "True"
 #define NPC_COLLISION_WIDTH 20
 #define NPC_COLLISION_HIGHT 40
@@ -32,6 +34,7 @@ public:
 	void setLayerVisibility(std::string layerName, bool visibility);
 	Point tileCoordForPosition(Point position);
 	bool isPositionBlocked(Point position);
+	std::string getPositionBridgeId(Point postion);  //if the position is a bridge tile return the bridge id. if it is not, return ""
 	void setUnavailablePositions(std::list<Point> *unavailablePositions);
 	void putInCharacter(Sprite * character);
 	void putInMainCharacter(Sprite * character);

@@ -4,6 +4,8 @@
 #define NPC_ACTIVATE_DISTANCE_Y 50
 #define MAP_SCROLL_DISTANCE 100
 #define MAP_SCROLL_STEP 300
+#define MAP_EDGE 15
+#define SWITCH_SCENE_TIME 0.5
 
 void Perform::setMainCharacter(Character *_mainCharacter)
 {
@@ -169,10 +171,10 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 
 
 	Size mapSize = stage->getContentSize();
-	if (((direction == left) && x<45) ||
-		((direction == right) && x>mapSize.width - 45) ||
-		((direction == down) && y<45) ||
-		((direction == up) && y>mapSize.height - 45))
+	if (((direction == left) && x<MAP_EDGE) ||
+		((direction == right) && x>mapSize.width - MAP_EDGE) ||
+		((direction == down) && y<MAP_EDGE) ||
+		((direction == up) && y>mapSize.height - MAP_EDGE))
 		return true;
 	if (NULL == stage)
 		return false;
@@ -193,7 +195,13 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	default:
 		break;
 	}
-
+	auto sceneId = stage->getPositionBridgeId(nextPosition);
+	if (sceneId != "")
+	{
+		auto scene = SceneBuilder::BuildScene(sceneId);
+		Director::getInstance()->replaceScene(CCTransitionFade::create(SWITCH_SCENE_TIME, scene));
+		return true;
+	}
 	return stage->isPositionBlocked(nextPosition);
 }
 

@@ -19,12 +19,15 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 {
 	auto scene = Scene::create();
 	auto layer = Layer::create();
+	XMLParser *parser = new XMLParser();
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
-	auto map = Stage::create("bmap.tmx", "BMap.jpg");
+	std::string mapName = "BMAP";
+	std::string mapImg, mapTmx;
+	parser->getMapDetail(mapName, mapImg, mapTmx);
+	auto map = Stage::create(mapTmx, mapImg);
 	Point p = map->getPosition();
 	layer->addChild(map);
 
@@ -43,19 +46,22 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 	perform->setDialog(dialog);
 
 	input->bindPerformer(perform);
-
+	
 	InformationCenter *ic = InformationCenter::getInstance();
 	ic->setPerformer(perform);
 
-	perform->initializeMainCharacter("Main.png");
+
+	
+	
+	perform->initializeMainCharacter(parser->getNPCImageUrl("MAIN"));
 	perform->putinMainCharacter(layer, map->getObjectPosition("Hero", "Pst"));
 	auto NPC1 = new Character("NPC.png");
 	perform->putinCharacter(layer, map->getObjectPosition("Hero", "NPC1"), NPC1);
 
-	XMLParser *parser = new XMLParser();
+	
 
-	//auto NPC2 = new Character(parser->getNPCImageUrl("NPC2"));
-	auto NPC2 = new Character("TNPC.png");
+	auto NPC2 = new Character(parser->getNPCImageUrl("NPC2"));
+	//auto NPC2 = new Character("TNPC.png");
 	perform->putinCharacter(layer, map->getObjectPosition("Hero", "NPC2"), NPC2);
 
 

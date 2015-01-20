@@ -64,7 +64,23 @@ void Stage::setLayerVisibility(std::string layerName, bool visibility)
 		
 
 }
+std::string Stage::getPositionBridgeId(Point postion)
+{
+	auto bridgeLayer = map->getLayer(BRIDGE_LAYER);
+	Point tileCoord = this->tileCoordForPosition(postion);
+	int tileGid = bridgeLayer->getTileGIDAt(tileCoord);
+	if (tileGid) {
+		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
+		if (!properties.empty()) {
+			auto sceneid = properties[PROPERTIE_BRIDGE].asString();
+			
+			return sceneid;
+			
+		}
+	}
+	return "";
 
+}
 bool Stage::isPositionBlocked(Point position)
 {
 	auto blockedLayer = map->getLayer(BLOCK_LAYER);
