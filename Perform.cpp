@@ -291,38 +291,49 @@ void Perform::activate()
 		newFacingDirection = left;
 		break;
 	}
-	std::list<Character*>::iterator i;
-	for (i = NPCList.begin(); i != NPCList.end(); i++)
+	if (!NPCList.empty())
 	{
-		Character* tempCharacter = *i;
-		Point NPCPosition = tempCharacter->getPosition();
-		if (fabs(NPCPosition.x - destination.x) < NPC_ACTIVATE_DISTANCE_X && fabs(NPCPosition.y - destination.y) < NPC_ACTIVATE_DISTANCE_Y)
+		std::list<Character*>::iterator i;
+		for (i = NPCList.begin(); i != NPCList.end(); i++)
 		{
-			tempCharacter->changeFacingDirection(newFacingDirection);
-			//dialog->display(tempCharacter->getWords());
-			operationStatus = DisplayingDialog;
-			std::list<std::string> list;
-			list.push_back("HAHAHAHAHAAHAHA");
-			list.push_back("Who cares?");
-			list.push_back("This is just for testing");
+			Character* tempCharacter = *i;
+			Point NPCPosition = tempCharacter->getPosition();
+			if (fabs(NPCPosition.x - destination.x) < NPC_ACTIVATE_DISTANCE_X && fabs(NPCPosition.y - destination.y) < NPC_ACTIVATE_DISTANCE_Y)
+			{
+				tempCharacter->changeFacingDirection(newFacingDirection);
+				//dialog->display(tempCharacter->getWords());
+				operationStatus = DisplayingDialog;
+				std::list<std::string> list;
+				list.push_back("HAHAHAHAHAAHAHA");
+				list.push_back("Who cares?");
+				list.push_back("This is just for testing");
 
-			dialog->display(list);
+				dialog->display(list);
 
-			return;
+				return;
+			}
 		}
 	}
 
 }
 void Perform::updateNPCPositionList()
 {
-	std::list<Character*>::iterator i;
-	for (i = NPCList.begin(); i != NPCList.end(); i++)
+	if (!NPCList.empty())
 	{
-		Character* tempCharacter = *i;
-		NPCPositionList.push_back(tempCharacter->getPosition());
+		std::list<Character*>::iterator i;
+		for (i = NPCList.begin(); i != NPCList.end(); i++)
+		{
+			Character* tempCharacter = *i;
+			NPCPositionList.push_back(tempCharacter->getPosition());
+		}
 	}
 }
 std::list<Point> Perform::getNPCPositionList()
 {
 	return NPCPositionList;
+}
+
+void Perform::setOperationStatus(Operation_Status status)
+{
+	operationStatus = status;
 }

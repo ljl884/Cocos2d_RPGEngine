@@ -43,6 +43,60 @@ tinyxml2::XMLElement* XMLParser::findNodeByName(std::string name, ScriptType typ
 	}
 	return NULL;
 }
+
+XMLNPC* XMLParser::getNPCInfo(std::string npcName)
+{
+	XMLNPC *npcTemplate = new XMLNPC();
+	tinyxml2::XMLElement *npcNode=findNodeByName(npcName, npc);
+	if (NULL != npcNode)
+	{
+		npcTemplate->ImageUrl = npcNode->FirstChildElement("image")->GetText();
+	}
+	return npcTemplate;
+}
+XMLMap* XMLParser::getMapInfo(std::string mapName)
+{
+	XMLMap* mapTemplate = new XMLMap();
+	tinyxml2::XMLElement *mapNode = findNodeByName(mapName, map);
+	if (NULL != mapNode)
+	{
+		mapTemplate->ImageUrl = mapNode->FirstChildElement("image")->GetText();
+		mapTemplate->TMXUrl   = mapNode->FirstChildElement("tmx")->GetText();
+	}
+	return mapTemplate;
+}
+XMLScene* XMLParser::getSceneInfo(std::string sceneName)
+{
+	XMLScene* sceneTemplate = new XMLScene();
+	tinyxml2::XMLElement *sceneNode = findNodeByName(sceneName, scene);
+	if (NULL != sceneNode)
+	{
+		sceneTemplate->mapName = sceneNode->FirstChildElement("map")->GetText();
+		
+		tinyxml2::XMLElement *maincharacter = sceneNode->FirstChildElement("maincharacter");
+		if (NULL!=maincharacter)
+		{
+			sceneTemplate->mainCharacterName = maincharacter->FirstChildElement("name")->GetText();
+			sceneTemplate->mainCharacterPosition = maincharacter->FirstChildElement("position")->GetText();
+		}
+	
+
+		tinyxml2::XMLElement *sceneNPCs = sceneNode->FirstChildElement("NPCs");
+		if (NULL != sceneNPCs)
+		{
+			tinyxml2::XMLElement *npc = sceneNPCs->FirstChildElement("npc");
+			while (npc)
+			{
+				sceneTemplate->npcNames.push_back(npc->FirstChildElement("name")->GetText());
+				sceneTemplate->npcPositions.push_back(npc->FirstChildElement("postion")->GetText());
+				npc = npc->NextSiblingElement();
+			}
+		}
+		
+	}
+
+	return sceneTemplate;
+}
 std::string XMLParser::getNPCImageUrl(std::string npcName)
 {
 	tinyxml2::XMLElement *npcNode = findNodeByName(npcName, npc);

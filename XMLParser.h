@@ -13,14 +13,37 @@ enum ScriptType
 	map = 1,
 	scene = 2
 };
+class XMLNPC
+{
+public:
+	std::string ImageUrl;
+};
+class XMLMap
+{
+public:
+	std::string ImageUrl;
+	std::string TMXUrl;
+};
+class XMLScene
+{
+public:
+	std::string mapName="";
+	std::string mainCharacterName="";
+	std::string mainCharacterPosition="";
+	std::list<std::string> npcNames;
+	std::list<std::string> npcPositions;
+};
 
 class XMLParser
 {
 public:
 	XMLParser();
-	 Sprite*  initializeCharacter(std::string npcName);
-	 std::string getNPCImageUrl(std::string npcName);
-	 bool getMapDetail(std::string mapName, std::string &imgUrl, std::string &tmxUrl);
+
+	XMLNPC* getNPCInfo(std::string npcName);
+	XMLMap* getMapInfo(std::string mapName);
+	XMLScene* getSceneInfo(std::string sceneName);
+	std::string getNPCImageUrl(std::string npcName);
+	bool getMapDetail(std::string mapName, std::string &imgUrl, std::string &tmxUrl);
 private:
 	std::string NPCScriptUrl;
 	tinyxml2::XMLElement *findNodeByName(std::string name, ScriptType type);
@@ -28,5 +51,6 @@ private:
 	tinyxml2::XMLDocument npcDoc;
 	tinyxml2::XMLDocument mapDoc;
 	tinyxml2::XMLDocument sceneDoc;
+
 };
 #endif

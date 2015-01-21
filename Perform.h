@@ -13,7 +13,8 @@ enum Operation_Status
 {
 	freeMoving = 1,
 	DisplayingDialog = 2,
-	playingVideo =3
+	playingVideo =3,
+	NoMainCharacter =4
 };
 
 class Perform: public Layer
@@ -34,6 +35,7 @@ public:
 	void onActionButtonPressed();
 	void onArrowButtonPressed(Character_Direction direction);
 	void onArrowButtonReleased(Character_Direction direction);
+	void setOperationStatus(Operation_Status status);
 	Direction CharacterDirectionToDirection(Character_Direction cd);
 	std::list<Point> getNPCPositionList();
 protected:

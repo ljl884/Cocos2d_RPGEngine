@@ -6,11 +6,14 @@
 
 #define PROPERTIE_BLOCKED "Blocked"
 #define PROPERTIE_BRIDGE "SceneId"
+#define BACKGROUND_LAYER "Layer1"
 #define BLOCK_LAYER "Block"
 #define BRIDGE_LAYER "Bridge"
+#define POSITION_LAYER "Hero"
 #define TRUE "True"
 #define NPC_COLLISION_WIDTH 20
 #define NPC_COLLISION_HIGHT 40
+#define SCROLLING_SPEED 300  
 
 using namespace cocos2d;
 
@@ -49,7 +52,7 @@ protected:
 	Node background;
 	TMXTiledMap *map;
 	Sprite *mapImg;
-	std::list<Point> *unavailablePositions;
+	std::list<Point> *unavailablePositions=NULL;
 	Size mapSize;
 	Sprite *mainCharacter;
 };

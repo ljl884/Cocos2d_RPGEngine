@@ -1,6 +1,6 @@
 #include "Stage.h"
 
-#define SCROLLING_SPEED 300  
+
 
 Stage* Stage::create(std::string name,std::string mapImageFilename){
 	auto stage = new Stage();
@@ -97,7 +97,7 @@ bool Stage::isPositionBlocked(Point position)
 	}
 
 	//NPC Position
-	if (NULL != unavailablePositions)
+	if (NULL != unavailablePositions )
 	{
 		std::list<Point>::iterator i;
 		for (i = unavailablePositions->begin(); i != unavailablePositions->end(); i++)

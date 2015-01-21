@@ -21,21 +21,25 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 	auto layer = Layer::create();
 	XMLParser *parser = new XMLParser();
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	XMLScene *xmlScene = parser->getSceneInfo(sceneId);
 
-	std::string mapName = "BMAP";
+
+	//Build Map
+	std::string mapName = xmlScene->mapName;
 	std::string mapImg, mapTmx;
-	parser->getMapDetail(mapName, mapImg, mapTmx);
-	auto map = Stage::create(mapTmx, mapImg);
+	XMLMap *xmlMap = parser->getMapInfo(mapName);
+	auto map = Stage::create(xmlMap->TMXUrl, xmlMap->ImageUrl);
+	delete xmlMap;
 	Point p = map->getPosition();
 	layer->addChild(map);
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	map->setLayerVisibility(BACKGROUND_LAYER, false);
+	map->setLayerVisibility(BLOCK_LAYER, true);
 
-	map->setLayerVisibility("Layer1", false);
-	map->setLayerVisibility("Block", true);
 
+	//Build components
 	auto input = new InputManager();
-
 	layer->addChild(input);
 
 	auto dialog = new Dialog("dialogbar.png");
@@ -52,19 +56,36 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 
 
 	
-	
-	perform->initializeMainCharacter(parser->getNPCImageUrl("MAIN"));
-	perform->putinMainCharacter(layer, map->getObjectPosition("Hero", "Pst"));
-	auto NPC1 = new Character("NPC.png");
-	perform->putinCharacter(layer, map->getObjectPosition("Hero", "NPC1"), NPC1);
+	//Build Main Character
+	if ("" == xmlScene->mainCharacterName)
+		perform->setOperationStatus(NoMainCharacter);   //This will ban moving operations on main character
+	else
+	{
+		std::string maincharacterName = parser->getNPCInfo(xmlScene->mainCharacterName)->ImageUrl;
+		perform->initializeMainCharacter(maincharacterName);
+		if (xmlScene->mainCharacterPosition != "")
+			perform->putinMainCharacter(layer, map->getObjectPosition(POSITION_LAYER, xmlScene->mainCharacterPosition));
+	}
 
-	
-
-	auto NPC2 = new Character(parser->getNPCImageUrl("NPC2"));
-	//auto NPC2 = new Character("TNPC.png");
-	perform->putinCharacter(layer, map->getObjectPosition("Hero", "NPC2"), NPC2);
 
 
+	//Build NPCs
+	if (!xmlScene->npcNames.empty())
+	{
+		std::list<std::string>::iterator iNPCName, iNPCPosition;
+
+		iNPCPosition = xmlScene->npcPositions.begin();
+		for (iNPCName = xmlScene->npcNames.begin(); iNPCName != xmlScene->npcNames.end(); iNPCName++)
+		{
+
+			std::string npcName = parser->getNPCInfo(*iNPCName)->ImageUrl;
+			std::string npcPosition = *iNPCPosition;
+			auto NPC = new Character(npcName);
+			perform->putinCharacter(layer, map->getObjectPosition(POSITION_LAYER, npcPosition), NPC);
+			iNPCPosition++;
+		}
+
+	}
 
 
 	scene->addChild(layer);
