@@ -37,7 +37,12 @@ public:
 class XMLParser
 {
 public:
-	XMLParser();
+	static XMLParser* getInstance()
+	{
+		if (instance == NULL)
+			instance = new XMLParser();
+		return instance;
+	}
 
 	XMLNPC* getNPCInfo(std::string npcName);
 	XMLMap* getMapInfo(std::string mapName);
@@ -45,6 +50,8 @@ public:
 	std::string getNPCImageUrl(std::string npcName);
 	bool getMapDetail(std::string mapName, std::string &imgUrl, std::string &tmxUrl);
 private:
+	XMLParser();
+	static XMLParser *instance;
 	std::string NPCScriptUrl;
 	tinyxml2::XMLElement *findNodeByName(std::string name, ScriptType type);
 	std::string xmlFilePath;

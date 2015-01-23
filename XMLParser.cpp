@@ -4,6 +4,8 @@
 #define MAP_SCRIPT "xml\\MAP.xml"
 #define SCENE_SCRIPT "xml\\SCENE.xml"
 
+XMLParser * XMLParser::instance = NULL;
+
 XMLParser::XMLParser()
 {
 	npcDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(NPC_SCRIPT).c_str());
