@@ -6,7 +6,7 @@
 
 
 #define MAX_MOVING_DISTANCE 1000
-#define MOVING_SPEED 80
+#define MOVING_SPEED 200
 #define STEP_DISTANCE 15
 
 enum  Character_Direction

@@ -195,16 +195,35 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	default:
 		break;
 	}
-	auto sceneId = stage->getPositionBridgeId(nextPosition);
-	if (sceneId != "")
+	std::string sceneId = "", mcPosition = "";
+	if (stage->getPositionBridgeInfo(nextPosition,sceneId,mcPosition))
 	{
-		auto scene = SceneBuilder::BuildScene(sceneId);
+		auto scene = SceneBuilder::BuildScene(sceneId,mcPosition);
 		Director::getInstance()->replaceScene(CCTransitionFade::create(SWITCH_SCENE_TIME, scene));
 		return true;
 	}
 	return stage->isPositionBlocked(nextPosition);
 }
+void Perform::setCameraPosition(Point position)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Size mapSize = stage->getContentSize();
+	Point mapPostion = stage->getPosition();
+	int y = 0.5*mapSize.height-position.y;
+	int x = 0.5*mapSize.width-position.x;
+	if (position.x <= visibleSize.width)
+		x = 0.5*mapSize.width - 0.5*visibleSize.width;
+	if (position.y <= visibleSize.height)
+		y = 0.5*mapSize.height - 0.5*visibleSize.height;
+	if (position.x + 0.5*visibleSize.width>=mapSize.width)
+		x = 0.5*visibleSize.width - 0.5*mapSize.width;
+	if (position.y + 0.5*visibleSize.height >= mapSize.height)
+		y = 0.5*visibleSize.height - 0.5*mapSize.height;
 
+	stage->setPosition(ccp(x, y));
+
+
+}
 bool Perform::mapShouldScroll(Character_Direction direction)
 {
 	Point position = mainCharacter->character->convertToWorldSpace(ccp(0,0));//main character's world position

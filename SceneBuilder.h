@@ -12,6 +12,7 @@ public:
 	SceneBuilder();
 
 	static Scene* BuildScene(std::string sceneId);
+	static Scene* BuildScene(std::string sceneId, std::string mainCharacterPosition);
 	
 
 private:

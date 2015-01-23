@@ -10,6 +10,9 @@
 #include "XMLParser.h"
 #include "InformationCenter.h"
 
+#define MAP_PATH "map/"
+#define NPC_PATH "npc/"
+
 
 SceneBuilder::SceneBuilder()
 {
@@ -17,9 +20,13 @@ SceneBuilder::SceneBuilder()
 }
 Scene *SceneBuilder::BuildScene(std::string sceneId)
 {
+	return BuildScene(sceneId, "");
+}
+Scene *SceneBuilder::BuildScene(std::string sceneId,std::string mainCharacterPosition)
+{
 	auto scene = Scene::create();
 	auto layer = Layer::create();
-	XMLParser *parser = new XMLParser();
+	XMLParser *parser = XMLParser::getInstance();
 
 	XMLScene *xmlScene = parser->getSceneInfo(sceneId);
 
@@ -28,9 +35,9 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 	std::string mapName = xmlScene->mapName;
 	std::string mapImg, mapTmx;
 	XMLMap *xmlMap = parser->getMapInfo(mapName);
-	auto map = Stage::create(xmlMap->TMXUrl, xmlMap->ImageUrl);
+	auto map = Stage::create(MAP_PATH + xmlMap->TMXUrl, MAP_PATH + xmlMap->ImageUrl);
 	delete xmlMap;
-	Point p = map->getPosition();
+	//Point p = map->getPosition();
 	layer->addChild(map);
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -61,10 +68,17 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 		perform->setOperationStatus(NoMainCharacter);   //This will ban moving operations on main character
 	else
 	{
-		std::string maincharacterName = parser->getNPCInfo(xmlScene->mainCharacterName)->ImageUrl;
-		perform->initializeMainCharacter(maincharacterName);
-		if (xmlScene->mainCharacterPosition != "")
-			perform->putinMainCharacter(layer, map->getObjectPosition(POSITION_LAYER, xmlScene->mainCharacterPosition));
+		std::string maincharacterUrl = NPC_PATH+parser->getNPCInfo(xmlScene->mainCharacterName)->ImageUrl;
+		perform->initializeMainCharacter(maincharacterUrl);
+		Point position;
+		if (mainCharacterPosition != "")
+			position = map->getObjectPosition(POSITION_LAYER, mainCharacterPosition);
+		else if (xmlScene->mainCharacterPosition != "")
+			position = map->getObjectPosition(POSITION_LAYER, xmlScene->mainCharacterPosition);
+			
+		perform->putinMainCharacter(layer, position);
+		perform->setCameraPosition(position);
+		
 	}
 
 
@@ -78,9 +92,9 @@ Scene *SceneBuilder::BuildScene(std::string sceneId)
 		for (iNPCName = xmlScene->npcNames.begin(); iNPCName != xmlScene->npcNames.end(); iNPCName++)
 		{
 
-			std::string npcName = parser->getNPCInfo(*iNPCName)->ImageUrl;
+			std::string npcUrl = NPC_PATH+parser->getNPCInfo(*iNPCName)->ImageUrl;
 			std::string npcPosition = *iNPCPosition;
-			auto NPC = new Character(npcName);
+			auto NPC = new Character(npcUrl);
 			perform->putinCharacter(layer, map->getObjectPosition(POSITION_LAYER, npcPosition), NPC);
 			iNPCPosition++;
 		}

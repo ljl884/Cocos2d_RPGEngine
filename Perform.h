@@ -36,6 +36,7 @@ public:
 	void onArrowButtonPressed(Character_Direction direction);
 	void onArrowButtonReleased(Character_Direction direction);
 	void setOperationStatus(Operation_Status status);
+	void setCameraPosition(Point position);
 	Direction CharacterDirectionToDirection(Character_Direction cd);
 	std::list<Point> getNPCPositionList();
 protected:

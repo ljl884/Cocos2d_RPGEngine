@@ -46,28 +46,6 @@ bool HelloWorld::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	
-	//Node *node = CSLoader::createNode("MainScene.csb");
-	//this->addChild(node);
-
-	//import Map
-	//auto map = TMXTiledMap::create("map.tmx");
-	//this->addChild(map);
-	
-	
-	auto map = Stage::create("bmap.tmx","BMap.jpg");
-	Point p  = map->getPosition();
-	this->addChild(map);
-	
-	map->setLayerVisibility("Layer1", false);
-	map->setLayerVisibility("Block", true);
-
-
-
-
-    
-
-
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -75,46 +53,7 @@ bool HelloWorld::init()
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
-
-  
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-  
-	auto input = new InputManager();
-
-	this->addChild(input);
-
-	auto dialog = new Dialog("dialogbar.png");
-	this->addChild(dialog, 0, "Dialog");
-
-	auto perform = new Perform();
-	perform->setStage(map);
-	perform->setDialog(dialog);
-
-	input->bindPerformer(perform);
-
-	InformationCenter *ic = InformationCenter::getInstance();
-	ic->setPerformer(perform);
-
-	perform->initializeMainCharacter("Main.png");
-	perform->putinMainCharacter(this, map->getObjectPosition("Hero","Pst"));
-	auto NPC1 = new Character("NPC.png");
-	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC1"), NPC1);
-	
-	XMLParser *parser = new XMLParser();
-	
-	//auto NPC2 = new Character(parser->getNPCImageUrl("NPC2"));
-	auto NPC2 = new Character("TNPC.png");
-	perform->putinCharacter(this, map->getObjectPosition("Hero", "NPC2"), NPC2);
-	
-	
-
-
-
-	
-    
+		  
     return true;
 }
 
