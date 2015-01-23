@@ -64,7 +64,7 @@ void Stage::setLayerVisibility(std::string layerName, bool visibility)
 		
 
 }
-std::string Stage::getPositionBridgeId(Point postion)
+bool Stage::getPositionBridgeInfo(Point postion,std::string &sceneid,std::string &mcPosition)
 {
 	auto bridgeLayer = map->getLayer(BRIDGE_LAYER);
 	Point tileCoord = this->tileCoordForPosition(postion);
@@ -72,13 +72,13 @@ std::string Stage::getPositionBridgeId(Point postion)
 	if (tileGid) {
 		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
 		if (!properties.empty()) {
-			auto sceneid = properties[PROPERTIE_BRIDGE].asString();
-			
-			return sceneid;
+			 sceneid = properties[PROPERTIE_BRIDGE].asString();
+			 mcPosition = properties[PROPERTIE_POSITION].asString();
+			 return true;
 			
 		}
 	}
-	return "";
+	return false;
 
 }
 bool Stage::isPositionBlocked(Point position)
@@ -183,3 +183,4 @@ void Stage::scrollOverCallBack(void)
 	InformationCenter *ic = InformationCenter::getInstance();
 	ic->moveOver();
 }
+

@@ -6,6 +6,7 @@
 
 #define PROPERTIE_BLOCKED "Blocked"
 #define PROPERTIE_BRIDGE "SceneId"
+#define PROPERTIE_POSITION "Position"
 #define BACKGROUND_LAYER "Layer1"
 #define BLOCK_LAYER "Block"
 #define BRIDGE_LAYER "Bridge"
@@ -37,7 +38,7 @@ public:
 	void setLayerVisibility(std::string layerName, bool visibility);
 	Point tileCoordForPosition(Point position);
 	bool isPositionBlocked(Point position);
-	std::string getPositionBridgeId(Point postion);  //if the position is a bridge tile return the bridge id. if it is not, return ""
+	bool getPositionBridgeInfo(Point postion, std::string &sceneid, std::string &mcPosition);	
 	void setUnavailablePositions(std::list<Point> *unavailablePositions);
 	void putInCharacter(Sprite * character);
 	void putInMainCharacter(Sprite * character);
