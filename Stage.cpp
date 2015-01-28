@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "Config.h"
 
 
 
@@ -66,14 +67,14 @@ void Stage::setLayerVisibility(std::string layerName, bool visibility)
 }
 bool Stage::getPositionBridgeInfo(Point postion,std::string &sceneid,std::string &mcPosition)
 {
-	auto bridgeLayer = map->getLayer(BRIDGE_LAYER);
+	auto bridgeLayer = map->getLayer(Config::BRIDGE_LAYER);
 	Point tileCoord = this->tileCoordForPosition(postion);
 	int tileGid = bridgeLayer->getTileGIDAt(tileCoord);
 	if (tileGid) {
 		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
 		if (!properties.empty()) {
-			 sceneid = properties[PROPERTIE_BRIDGE].asString();
-			 mcPosition = properties[PROPERTIE_POSITION].asString();
+			sceneid = properties[Config::PROPERTIE_BRIDGE].asstd::string();
+			mcPosition = properties[Config::PROPERTIE_POSITION].asstd::string();
 			 return true;
 			
 		}
@@ -83,14 +84,14 @@ bool Stage::getPositionBridgeInfo(Point postion,std::string &sceneid,std::string
 }
 bool Stage::isPositionBlocked(Point position)
 {
-	auto blockedLayer = map->getLayer(BLOCK_LAYER);
+	auto blockedLayer = map->getLayer(Config::BLOCK_LAYER);
 	Point tileCoord = this->tileCoordForPosition(position);
 	int tileGid = blockedLayer->getTileGIDAt(tileCoord);
 	if (tileGid) {
 		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
 		if (!properties.empty()) {
-			auto blocked = properties[PROPERTIE_BLOCKED].asString();
-			if (TRUE == blocked) {
+			auto blocked = properties[Config::PROPERTIE_BLOCKED].asstd::string();
+			if (Config::PROPERTIE_TRUE == blocked) {
 				return true;
 			}
 		}
@@ -103,7 +104,7 @@ bool Stage::isPositionBlocked(Point position)
 		for (i = unavailablePositions->begin(); i != unavailablePositions->end(); i++)
 		{
 			Point tempPoint = *i;
-			if (fabs(position.x - tempPoint.x) < NPC_COLLISION_WIDTH && fabs(position.y - tempPoint.y) < NPC_COLLISION_HIGHT)
+			if (fabs(position.x - tempPoint.x) < Config::NPC_COLLISION_WIDTH && fabs(position.y - tempPoint.y) < Config::NPC_COLLISION_HIGHT)
 				return true;
 				
 		}
@@ -137,7 +138,7 @@ void Stage::putInMainCharacter(Sprite *character)
 
 void Stage::scrollToDirectionBy(Direction direction, int distance)
 {
-	scrollToDirectionBy((float)distance / SCROLLING_SPEED, direction, distance);
+	scrollToDirectionBy((float)distance / Config::SCROLLING_SPEED, direction, distance);
 }
 
 void Stage::scrollToDirectionBy(float duration, Direction direction, int distance)

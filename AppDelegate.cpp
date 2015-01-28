@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "SceneBuilder.h"
+#include "Config.h"
 
 USING_NS_CC;
 
@@ -24,7 +25,9 @@ void AppDelegate::initGLContextAttrs()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-    // initialize director
+    //initialize config
+	Config::loadFromFile("Config.xml");
+	// initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -40,6 +43,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
    // auto scene = HelloWorld::createScene();
+
 	auto scene = SceneBuilder::BuildScene("dormitory");
     // run
     director->runWithScene(scene);

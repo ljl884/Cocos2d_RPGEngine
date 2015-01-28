@@ -1,11 +1,12 @@
 #include "Perform.h"
+#include "Config.h"
 
-#define NPC_ACTIVATE_DISTANCE_X 30
-#define NPC_ACTIVATE_DISTANCE_Y 50
-#define MAP_SCROLL_DISTANCE 100
-#define MAP_SCROLL_STEP 300
-#define MAP_EDGE 15
-#define SWITCH_SCENE_TIME 0.5
+//#define NPC_ACTIVATE_DISTANCE_X 30
+//#define NPC_ACTIVATE_DISTANCE_Y 50
+//#define MAP_SCROLL_DISTANCE 100
+//#define MAP_SCROLL_STEP 300
+//#define MAP_EDGE 15
+//#define SWITCH_SCENE_TIME 0.5
 
 void Perform::setMainCharacter(Character *_mainCharacter)
 {
@@ -77,15 +78,15 @@ void Perform::startMovingMainCharacter(Character_Direction direction)
 		{
 			int scrollDistance;
 			int remainingDistanceToMapEdge = this->remainingDistanceToMapEdge(mainCharacter->movingDirection);
-				if (remainingDistanceToMapEdge > MAP_SCROLL_STEP)
-				scrollDistance = MAP_SCROLL_STEP;
+				if (remainingDistanceToMapEdge > Config::MAP_SCROLL_STEP)
+					scrollDistance = Config::MAP_SCROLL_STEP;
 			else
 				scrollDistance = remainingDistanceToMapEdge;
 			stage->isScrolling = true;
 			stage->scrollToDirectionBy(CharacterDirectionToDirection(mainCharacter->movingDirection), scrollDistance);
 		}
 		else
-		mainCharacter->moveToDirectionBy(mainCharacter->movingDirection, STEP_DISTANCE);
+			mainCharacter->moveToDirectionBy(mainCharacter->movingDirection, Config::STEP_DISTANCE);
 	}
 	
 }
@@ -171,35 +172,36 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 
 
 	Size mapSize = stage->getContentSize();
-	if (((direction == left) && x<MAP_EDGE) ||
-		((direction == right) && x>mapSize.width - MAP_EDGE) ||
-		((direction == down) && y<MAP_EDGE) ||
-		((direction == up) && y>mapSize.height - MAP_EDGE))
+	if (((direction == left) && x<Config::MAP_EDGE) ||
+		((direction == right) && x>mapSize.width - Config::MAP_EDGE) ||
+		((direction == down) && y<Config::MAP_EDGE) ||
+		((direction == up) && y>mapSize.height - Config::MAP_EDGE))
 		return true;
 	if (NULL == stage)
 		return false;
 	switch (direction)
 	{
 	case up:
-		nextPosition = ccp(x, y + STEP_DISTANCE);
+		nextPosition = ccp(x, y + Config::STEP_DISTANCE);
 		break;
 	case down:
-		nextPosition = ccp(x, y - STEP_DISTANCE);
+		nextPosition = ccp(x, y - Config::STEP_DISTANCE);
 		break;
 	case left:
-		nextPosition = ccp(x - STEP_DISTANCE, y);
+		nextPosition = ccp(x - Config::STEP_DISTANCE, y);
 		break;
 	case right:
-		nextPosition = ccp(x + STEP_DISTANCE, y);
+		nextPosition = ccp(x + Config::STEP_DISTANCE, y);
 		break;
 	default:
 		break;
 	}
 	std::string sceneId = "", mcPosition = "";
+
 	if (stage->getPositionBridgeInfo(nextPosition,sceneId,mcPosition))
 	{
 		auto scene = SceneBuilder::BuildScene(sceneId,mcPosition);
-		Director::getInstance()->replaceScene(CCTransitionFade::create(SWITCH_SCENE_TIME, scene));
+		Director::getInstance()->replaceScene(CCTransitionFade::create(Config::SWITCH_SCENE_TIME, scene));
 		return true;
 	}
 	return stage->isPositionBlocked(nextPosition);
@@ -236,19 +238,19 @@ bool Perform::mapShouldScroll(Character_Direction direction)
 	switch (direction)
 	{
 	case up:
-		if (position.y > visibleSize.height - MAP_SCROLL_DISTANCE && (0.5*mapSize.height + y - 0.5*visibleSize.height)>STEP_DISTANCE)
+		if (position.y > visibleSize.height - Config::MAP_SCROLL_DISTANCE && (0.5*mapSize.height + y - 0.5*visibleSize.height)>Config::STEP_DISTANCE)
 			return true;
 		break;
 	case down:
-		if (position.y < MAP_SCROLL_DISTANCE && (0.5*mapSize.height-y-0.5*visibleSize.height)>STEP_DISTANCE)
+		if (position.y < Config::MAP_SCROLL_DISTANCE && (0.5*mapSize.height - y - 0.5*visibleSize.height)>Config::STEP_DISTANCE)
 			return true;
 		break;
 	case left:
-		if (position.x < MAP_SCROLL_DISTANCE && (0.5*mapSize.width -x -0.5*visibleSize.width)>STEP_DISTANCE)
+		if (position.x < Config::MAP_SCROLL_DISTANCE && (0.5*mapSize.width - x - 0.5*visibleSize.width)>Config::STEP_DISTANCE)
 			return true;
 		break;
 	case right:
-		if (position.x > visibleSize.width - MAP_SCROLL_DISTANCE && (0.5*mapSize.width + x - 0.5*visibleSize.width)>STEP_DISTANCE)
+		if (position.x > visibleSize.width - Config::MAP_SCROLL_DISTANCE && (0.5*mapSize.width + x - 0.5*visibleSize.width)>Config::STEP_DISTANCE)
 			return true;
 		break;
 	default:
@@ -294,19 +296,19 @@ void Perform::activate()
 	switch (mainCharacter->facingDirection)
 	{
 	case up:
-		destination = ccp(position.x, position.y + STEP_DISTANCE);
+		destination = ccp(position.x, position.y + Config::STEP_DISTANCE);
 		newFacingDirection = down;
 		break;
 	case down:
-		destination = ccp(position.x, position.y - STEP_DISTANCE);
+		destination = ccp(position.x, position.y - Config::STEP_DISTANCE);
 		newFacingDirection = up;
 		break;
 	case left:
-		destination = ccp(position.x - STEP_DISTANCE, position.y);
+		destination = ccp(position.x - Config::STEP_DISTANCE, position.y);
 		newFacingDirection = right;
 		break;
 	case right:
-		destination = ccp(position.x + STEP_DISTANCE, position.y + STEP_DISTANCE);
+		destination = ccp(position.x + Config::STEP_DISTANCE, position.y + Config::STEP_DISTANCE);
 		newFacingDirection = left;
 		break;
 	}
@@ -317,7 +319,7 @@ void Perform::activate()
 		{
 			Character* tempCharacter = *i;
 			Point NPCPosition = tempCharacter->getPosition();
-			if (fabs(NPCPosition.x - destination.x) < NPC_ACTIVATE_DISTANCE_X && fabs(NPCPosition.y - destination.y) < NPC_ACTIVATE_DISTANCE_Y)
+			if (fabs(NPCPosition.x - destination.x) < Config::NPC_ACTIVATE_DISTANCE_X && fabs(NPCPosition.y - destination.y) < Config::NPC_ACTIVATE_DISTANCE_Y)
 			{
 				tempCharacter->changeFacingDirection(newFacingDirection);
 				//dialog->display(tempCharacter->getWords());

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "tinyxml2\tinyxml2.h"
+#include "EventAction.h"
 
 
 using namespace cocos2d;
@@ -11,7 +12,8 @@ enum ScriptType
 {
 	npc = 0,
 	map = 1,
-	scene = 2
+	scene = 2,
+	event=3
 };
 class XMLNPC
 {
@@ -34,6 +36,11 @@ public:
 	std::list<std::string> npcPositions;
 };
 
+class XMLEvent
+{
+public:
+	std::queue<EventAction*> actions;
+}; 
 class XMLParser
 {
 public:
@@ -47,6 +54,7 @@ public:
 	XMLNPC* getNPCInfo(std::string npcName);
 	XMLMap* getMapInfo(std::string mapName);
 	XMLScene* getSceneInfo(std::string sceneName);
+	XMLEvent* getEventInfo(std::string eventName);
 	std::string getNPCImageUrl(std::string npcName);
 	bool getMapDetail(std::string mapName, std::string &imgUrl, std::string &tmxUrl);
 private:
@@ -54,10 +62,12 @@ private:
 	static XMLParser *instance;
 	std::string NPCScriptUrl;
 	tinyxml2::XMLElement *findNodeByName(std::string name, ScriptType type);
+	XMLEvent* parseEventScript(std::string filename);
 	std::string xmlFilePath;
 	tinyxml2::XMLDocument npcDoc;
 	tinyxml2::XMLDocument mapDoc;
 	tinyxml2::XMLDocument sceneDoc;
+	tinyxml2::XMLDocument eventDoc;
 
 };
 #endif

@@ -3,11 +3,12 @@
 
 #include "cocos2d.h"
 #include "InformationCenter.h"
+#include "Config.h"
 
 
-#define MAX_MOVING_DISTANCE 1000
-#define MOVING_SPEED 200
-#define STEP_DISTANCE 15
+//#define MAX_MOVING_DISTANCE 1000
+//#define MOVING_SPEED 200
+//#define STEP_DISTANCE 15
 
 enum  Character_Direction
 {

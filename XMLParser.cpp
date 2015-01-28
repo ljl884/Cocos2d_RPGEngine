@@ -1,16 +1,17 @@
 #include "XMLParser.h"
-
-#define NPC_SCRIPT "xml\\NPC.xml"
-#define MAP_SCRIPT "xml\\MAP.xml"
-#define SCENE_SCRIPT "xml\\SCENE.xml"
+#include"Config.h"
+//#define NPC_SCRIPT "xml\\NPC.xml"
+//#define MAP_SCRIPT "xml\\MAP.xml"
+//#define SCENE_SCRIPT "xml\\SCENE.xml"
 
 XMLParser * XMLParser::instance = NULL;
 
 XMLParser::XMLParser()
 {
-	npcDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(NPC_SCRIPT).c_str());
-	mapDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(MAP_SCRIPT).c_str());
-	sceneDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(SCENE_SCRIPT).c_str());	
+	npcDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(Config::NPC_SCRIPT).c_str());
+	mapDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(Config::MAP_SCRIPT).c_str());
+	sceneDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(Config::SCENE_SCRIPT).c_str());
+	eventDoc.LoadFile(FileUtils::getInstance()->fullPathForFilename(Config::EVENT_SCRIPT).c_str());
 }
 
 tinyxml2::XMLElement* XMLParser::findNodeByName(std::string name, ScriptType type)
@@ -30,6 +31,10 @@ tinyxml2::XMLElement* XMLParser::findNodeByName(std::string name, ScriptType typ
 	case scene:
 		nodeName = "Scene";
 		doc = &sceneDoc;
+		break;
+	case event:
+		nodeName = "Event";
+		doc = &eventDoc;
 		break;
 	default:
 		break;
@@ -98,6 +103,45 @@ XMLScene* XMLParser::getSceneInfo(std::string sceneName)
 	}
 
 	return sceneTemplate;
+}
+XMLEvent* XMLParser::getEventInfo(std::string eventName)
+{
+	XMLEvent* eventTemplate = NULL;
+	tinyxml2::XMLElement *eventNode = findNodeByName(eventName, event);
+	if (NULL != eventNode){
+		std::string scriptUrl = eventNode->FirstChildElement("file")->GetText();
+		eventTemplate = parseEventScript(scriptUrl);
+	}
+	
+	return eventTemplate;
+}
+XMLEvent* XMLParser::parseEventScript(std::string filename)
+{
+	XMLEvent* eventTemplate = new XMLEvent();
+	tinyxml2::XMLDocument *eventDocument = new tinyxml2::XMLDocument();
+	eventDocument->LoadFile(FileUtils::getInstance()->fullPathForFilename(Config::EVENT_PATH + filename).c_str());
+	if (eventDocument == NULL)
+		return NULL;
+	tinyxml2::XMLElement *root = eventDocument->RootElement();
+	tinyxml2::XMLElement *actionNode = root->FirstChildElement("Action");
+	while (actionNode)
+	{
+		std::string actionType = actionNode->FirstChildElement("type")->GetText();
+		if (actionType == "dialog")
+		{
+			std::string  text = actionNode->FirstChildElement("text")->GetText();
+			DialogAction *dialogAction = new DialogAction(text);
+			eventTemplate->actions.push(dialogAction);
+		}
+		else if (actionType == "move")
+		{
+			MoveAction *moveAction = new MoveAction();
+			eventTemplate->actions.push(moveAction);
+		}
+		actionNode = root->NextSiblingElement();
+	}
+	delete eventDocument;
+	return eventTemplate;
 }
 std::string XMLParser::getNPCImageUrl(std::string npcName)
 {

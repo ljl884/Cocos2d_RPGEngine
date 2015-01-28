@@ -4,17 +4,17 @@
 #include "cocos2d.h"
 #include "InformationCenter.h"
 
-#define PROPERTIE_BLOCKED "Blocked"
-#define PROPERTIE_BRIDGE "SceneId"
-#define PROPERTIE_POSITION "Position"
-#define BACKGROUND_LAYER "Layer1"
-#define BLOCK_LAYER "Block"
-#define BRIDGE_LAYER "Bridge"
-#define POSITION_LAYER "Hero"
-#define TRUE "True"
-#define NPC_COLLISION_WIDTH 20
-#define NPC_COLLISION_HIGHT 40
-#define SCROLLING_SPEED 300  
+//#define PROPERTIE_BLOCKED "Blocked"
+//#define PROPERTIE_BRIDGE "SceneId"
+//#define PROPERTIE_POSITION "Position"
+//#define BACKGROUND_LAYER "Layer1"
+//#define BLOCK_LAYER "Block"
+//#define BRIDGE_LAYER "Bridge"
+//#define POSITION_LAYER "Hero"
+//#define TRUE "True"
+//#define NPC_COLLISION_WIDTH 20
+//#define NPC_COLLISION_HIGHT 40
+//#define SCROLLING_SPEED 300  
 
 using namespace cocos2d;
 

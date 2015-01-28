@@ -1,7 +1,8 @@
 #include "Dialog.h"
+#include"Config.h"
 
-#define DIALOG_FONT_SIZE 20
-#define DIALOG_FONT "fonts/STXINWEI.ttf"
+//#define DIALOG_FONT_SIZE 20
+//#define DIALOG_FONT "fonts/STXINWEI.ttf"
 
 Dialog::Dialog(std::string dialogBarFilename)
 {
@@ -14,7 +15,7 @@ Dialog::Dialog(std::string dialogBarFilename)
 	this->addChild(dialogBar);
 
 	//initialize label
-	label = Label::createWithTTF("Hello", DIALOG_FONT, DIALOG_FONT_SIZE);
+	label = Label::createWithTTF("Hello", Config::DIALOG_FONT, Config::DIALOG_FONT_SIZE);
 	label->setColor(Color3B::BLACK);
 	label->setPosition(Vec2(dialogBar->getContentSize().width*0.2,dialogBar->getContentSize().height*0.95));
 	label->setVisible(false);

@@ -94,11 +94,11 @@ void Character::moveTo(float duration, CCPoint newpoint){
 
 void Character::moveToDirection(Character_Direction direction)
 {
-	moveToDirectionBy(direction, MAX_MOVING_DISTANCE);
+	moveToDirectionBy(direction, Config::MAX_MOVING_DISTANCE);
 }
 void Character::moveToDirectionBy(Character_Direction direction, int distance)
 {
-	moveToDirectionBy((float)distance / MOVING_SPEED, direction, distance);
+	moveToDirectionBy((float)distance / Config::MOVING_SPEED, direction, distance);
 }
 void Character::moveToDirectionBy(float duration,Character_Direction direction, int distance)
 {
