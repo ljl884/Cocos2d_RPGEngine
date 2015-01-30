@@ -154,7 +154,24 @@ void Perform::onActionButtonPressed()
 	case DisplayingDialog:
 		dialogEnded = dialog->nextPage();
 		if (dialogEnded)
-			operationStatus = freeMoving;
+		{
+			//if the dialog was an action, call the information center to run next action in the queue
+			if (dialog->getActionFlag() == true)
+			{
+				dialog->setActionFlag(false);
+				bool actionPlayed = InformationCenter::getInstance()->playAction();
+				
+				//if there is no actions in the queue, set the status to free moving.
+				if (actionPlayed == false)
+					operationStatus = freeMoving;
+			}
+			
+			//if the dialog was not an action, set the status to free moving.
+			else
+				operationStatus = freeMoving;
+		}
+			
+			
 		break;
 	default:
 		break;
@@ -163,14 +180,14 @@ void Perform::onActionButtonPressed()
 
 bool Perform::isNextPositionBlocked(Character_Direction direction)
 {
+	//get main characters position
 	Point nextPosition;
 	Point currentPosition;
 	currentPosition = mainCharacter->getPosition();
-//	currentPosition = stage->convertToNodeSpace(mainCharacter->getPosition());
 	int x = currentPosition.x;
 	int y = currentPosition.y;
 
-
+	//if is reaching the edge of the map return true
 	Size mapSize = stage->getContentSize();
 	if (((direction == left) && x<Config::MAP_EDGE) ||
 		((direction == right) && x>mapSize.width - Config::MAP_EDGE) ||
@@ -179,6 +196,9 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 		return true;
 	if (NULL == stage)
 		return false;
+
+
+	// set the position of the destination
 	switch (direction)
 	{
 	case up:
@@ -196,6 +216,21 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 	default:
 		break;
 	}
+	//if is reaching a event tile, get the event information and judge if the event should displayed
+	std::string eventName = "";
+	if (stage->getPositionEventInfo(nextPosition,eventName))
+	{
+		if (eventName != "")
+		{
+			XMLParser *parser = XMLParser::getInstance();
+			XMLEvent *event = parser->getEventInfo(eventName);
+			addEvent(event);
+			return true;
+		}
+	
+	}
+
+	//if is reaching a scene bridge tile, get  the bridge information from stage class and replace the current scene.
 	std::string sceneId = "", mcPosition = "";
 
 	if (stage->getPositionBridgeInfo(nextPosition,sceneId,mcPosition))
@@ -204,8 +239,11 @@ bool Perform::isNextPositionBlocked(Character_Direction direction)
 		Director::getInstance()->replaceScene(CCTransitionFade::create(Config::SWITCH_SCENE_TIME, scene));
 		return true;
 	}
+
+	//call stage to judge if is reaching the blocked area
 	return stage->isPositionBlocked(nextPosition);
 }
+
 void Perform::setCameraPosition(Point position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -323,7 +361,8 @@ void Perform::activate()
 			{
 				tempCharacter->changeFacingDirection(newFacingDirection);
 				//dialog->display(tempCharacter->getWords());
-				operationStatus = DisplayingDialog;
+				operationStatus = DisplayingDialog; 
+				mainCharacter->stopMoving();
 				std::list<std::string> list;
 				list.push_back("HAHAHAHAHAAHAHA");
 				list.push_back("Who cares?");
@@ -357,4 +396,43 @@ std::list<Point> Perform::getNPCPositionList()
 void Perform::setOperationStatus(Operation_Status status)
 {
 	operationStatus = status;
+}
+Operation_Status Perform::getOperationStatus()
+{
+	return operationStatus;
+}
+void Perform::addEvent(XMLEvent* eventToPlay)
+{
+	EventAction *action;
+	while (!eventToPlay->actions.empty())
+	{
+		action = eventToPlay->actions.front();
+		eventToPlay->actions.pop();
+		//action->playEvent(this);
+		this->actionQueue.push(action);
+		
+	}
+	InformationCenter *informationCenter = InformationCenter::getInstance();
+	informationCenter->playAction();
+}
+bool Perform::playAction()
+{
+	if (actionQueue.empty())
+		return false;
+	else
+	{
+		actionQueue.front()->playEvent(this);
+		actionQueue.pop();
+		return true;
+	}
+}
+void Perform::playDialog(std::string text)
+{
+	operationStatus = DisplayingDialog;
+	dialog->display(text);
+}
+void Perform::playDialog(std::string text, bool isAction)
+{
+	dialog->setActionFlag(isAction);
+	playDialog(text);
 }

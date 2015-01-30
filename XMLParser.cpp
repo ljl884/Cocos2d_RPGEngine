@@ -138,7 +138,17 @@ XMLEvent* XMLParser::parseEventScript(std::string filename)
 			MoveAction *moveAction = new MoveAction();
 			eventTemplate->actions.push(moveAction);
 		}
-		actionNode = root->NextSiblingElement();
+		else if (actionType == "change_scene")
+		{
+			std::string sceneName = actionNode->FirstChildElement("scene")->FirstChildElement("name")->GetText();
+			if (sceneName != "")
+			{
+				SceneAction *sceneAction = new SceneAction(sceneName);
+				eventTemplate->actions.push(sceneAction);
+			}
+			
+		}
+		actionNode = actionNode->NextSiblingElement();
 	}
 	delete eventDocument;
 	return eventTemplate;

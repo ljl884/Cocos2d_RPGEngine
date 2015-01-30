@@ -39,6 +39,7 @@ public:
 	Point tileCoordForPosition(Point position);
 	bool isPositionBlocked(Point position);
 	bool getPositionBridgeInfo(Point postion, std::string &sceneid, std::string &mcPosition);	
+	bool getPositionEventInfo(Point position, std::string &eventName);
 	void setUnavailablePositions(std::list<Point> *unavailablePositions);
 	void putInCharacter(Sprite * character);
 	void putInMainCharacter(Sprite * character);

@@ -42,7 +42,8 @@ Scene *SceneBuilder::BuildScene(std::string sceneId,std::string mainCharacterPos
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	map->setLayerVisibility(Config::BACKGROUND_LAYER, false);
-	map->setLayerVisibility(Config::BLOCK_LAYER, true);
+	map->setLayerVisibility(Config::BLOCK_LAYER, false);
+	map->setLayerVisibility(Config::EVENT_LAYER, false);
 
 
 	//Build components

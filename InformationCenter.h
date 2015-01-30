@@ -19,6 +19,7 @@ public:
 	}
 	void setPerformer(Perform *performer);
 	void moveOver();
+	bool playAction();
 	~InformationCenter();
 
 };

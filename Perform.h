@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Dialog.h"
 #include "SceneBuilder.h"
+#include "XMLParser.h"
 
 using namespace cocos2d;
 
@@ -36,7 +37,12 @@ public:
 	void onArrowButtonPressed(Character_Direction direction);
 	void onArrowButtonReleased(Character_Direction direction);
 	void setOperationStatus(Operation_Status status);
+	Operation_Status getOperationStatus();
 	void setCameraPosition(Point position);
+	void addEvent(XMLEvent* eventToPlay);
+	bool playAction();
+	void playDialog(std::string text);
+	void playDialog(std::string text, bool isAction);
 	Direction CharacterDirectionToDirection(Character_Direction cd);
 	std::list<Point> getNPCPositionList();
 protected:
@@ -50,6 +56,7 @@ protected:
 	bool mapShouldScroll(Character_Direction direction);
 	int remainingDistanceToMapEdge(Character_Direction direction);
 	Operation_Status operationStatus = freeMoving;
+	std::queue<EventAction*> actionQueue;
 
 
 };

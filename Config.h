@@ -30,9 +30,11 @@ public:
 	static std::string PROPERTIE_BLOCKED;
 	static std::string PROPERTIE_BRIDGE;
 	static std::string PROPERTIE_POSITION;
+	static std::string PROPERTIE_EVENT_NAME;
 	static std::string BACKGROUND_LAYER;
 	static std::string BLOCK_LAYER;
 	static std::string BRIDGE_LAYER;
+	static std::string EVENT_LAYER;
 	static std::string POSITION_LAYER;
 	static std::string PROPERTIE_TRUE;
 	static int DIALOG_FONT_SIZE;

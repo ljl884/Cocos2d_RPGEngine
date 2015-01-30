@@ -27,13 +27,15 @@ std::string Config::EVENT_SCRIPT = "xml\\EVENT.xml";
 std::string Config::PROPERTIE_BLOCKED = "Blocked";
 std::string Config::PROPERTIE_BRIDGE = "SceneId";
 std::string Config::PROPERTIE_POSITION = "Position";
+std::string Config::PROPERTIE_EVENT_NAME = "Event";
 std::string Config::BACKGROUND_LAYER = "Layer1";
 std::string Config::BLOCK_LAYER = "Block";
 std::string Config::BRIDGE_LAYER = "Bridge";
+std::string Config::EVENT_LAYER = "Event";
 std::string Config::POSITION_LAYER = "Hero";
 std::string Config::PROPERTIE_TRUE = "True";
 
-int Config::DIALOG_FONT_SIZE = 20;
+int Config::DIALOG_FONT_SIZE = 30;
 std::string Config::DIALOG_FONT= "fonts/STXINWEI.ttf";
 std::string Config::DIALOG_BAR_URL = "dialogbar.png";
 

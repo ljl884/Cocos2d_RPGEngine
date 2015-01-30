@@ -65,22 +65,36 @@ void Stage::setLayerVisibility(std::string layerName, bool visibility)
 		
 
 }
-bool Stage::getPositionBridgeInfo(Point postion,std::string &sceneid,std::string &mcPosition)
+bool Stage::getPositionBridgeInfo(Point position,std::string &sceneid,std::string &mcPosition)
 {
 	auto bridgeLayer = map->getLayer(Config::BRIDGE_LAYER);
-	Point tileCoord = this->tileCoordForPosition(postion);
+	Point tileCoord = this->tileCoordForPosition(position);
 	int tileGid = bridgeLayer->getTileGIDAt(tileCoord);
 	if (tileGid) {
 		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
 		if (!properties.empty()) {
-			sceneid = properties[Config::PROPERTIE_BRIDGE].asstd::string();
-			mcPosition = properties[Config::PROPERTIE_POSITION].asstd::string();
+			sceneid = properties[Config::PROPERTIE_BRIDGE].asString();
+			mcPosition = properties[Config::PROPERTIE_POSITION].asString();
 			 return true;
 			
 		}
 	}
 	return false;
 
+}
+bool Stage::getPositionEventInfo(Point position, std::string &eventName)
+{
+	auto eventLayer = map->getLayer(Config::EVENT_LAYER);
+	Point tileCoord = this->tileCoordForPosition(position);
+	int tileGid = eventLayer->getTileGIDAt(tileCoord);
+	if (tileGid) {
+		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
+		if (!properties.empty()) {
+			eventName = properties[Config::PROPERTIE_EVENT_NAME].asString();
+			return true;
+		}
+	}
+	return false;
 }
 bool Stage::isPositionBlocked(Point position)
 {
@@ -90,7 +104,7 @@ bool Stage::isPositionBlocked(Point position)
 	if (tileGid) {
 		auto properties = map->getPropertiesForGID(tileGid).asValueMap();
 		if (!properties.empty()) {
-			auto blocked = properties[Config::PROPERTIE_BLOCKED].asstd::string();
+			auto blocked = properties[Config::PROPERTIE_BLOCKED].asString();
 			if (Config::PROPERTIE_TRUE == blocked) {
 				return true;
 			}

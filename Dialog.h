@@ -10,8 +10,11 @@ class Dialog : public Node
 public:
 	Dialog(std::string dialogBarFilename);
 	void setVisibility(bool visibility);
-	void display(std::string words);
+	void displayPage(std::string words);
+	void display(const std::string words);
 	void display(const std::list<std::string> words);
+	void setActionFlag(bool isPlayingAction); //when displaying event dialog, set the flag as true, then the dialog will call information center to display next action on the end of displaying
+	bool getActionFlag();
 	bool nextPage();  // if dialog is over, return true
 
 protected:
@@ -19,5 +22,7 @@ protected:
 	Label *label;
 	std::list<std::string> wordsToBeDisplayed;
 	int currentIndex=0;
+	void split(const std::string& src, const std::string& separator, std::vector<std::string>& dest);
+	bool isPlayingAction;
 };
 #endif

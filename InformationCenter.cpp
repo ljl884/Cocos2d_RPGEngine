@@ -17,3 +17,7 @@ InformationCenter::~InformationCenter()
 {
 	delete performer;
 }
+bool InformationCenter::playAction()
+{
+	return performer->playAction();
+}
