@@ -136,6 +136,13 @@ XMLEvent* XMLParser::parseEventScript(std::string filename)
 		else if (actionType == "move")
 		{
 			MoveAction *moveAction = new MoveAction();
+			std::string targetName =actionNode->FirstChildElement("target")->FirstChildElement("name")->GetText();
+			std::string direction = actionNode->FirstChildElement("direction")->GetText();
+			std::string distance = actionNode->FirstChildElement("distance")->GetText();
+			moveAction->targetName = targetName;
+			moveAction->direction = direction;
+			moveAction->distance = atof(distance.c_str());
+
 			eventTemplate->actions.push(moveAction);
 		}
 		else if (actionType == "change_scene")

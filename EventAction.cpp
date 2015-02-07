@@ -2,11 +2,32 @@
 #include "Perform.h"
 
 
-
+//Move
 MoveAction::MoveAction()
 {
 	type = move;
 }
+void MoveAction::playEvent(Perform *perform)
+{
+	
+	Character_Direction Cdirection;
+	if (direction == "down")
+		Cdirection = down;
+	else if (direction == "up")
+		Cdirection = up;
+	else if (direction == "left")
+		Cdirection = left;
+	else if (direction == "right")
+		Cdirection = right;
+
+	if (targetName == "Main")
+	{
+		perform->stopMovingMainCharacter();
+		perform->moveMainCharacter(Cdirection, this->distance);
+	}
+}
+
+//Dialog
 DialogAction::DialogAction(std::string text)
 {
 	type = play_dialog;
@@ -17,6 +38,8 @@ void DialogAction::playEvent(Perform *perform)
 {
 	perform->playDialog(this->dialogText, true);
 }
+
+//Battle
 BattleAction::BattleAction()
 {
 	type = battle;

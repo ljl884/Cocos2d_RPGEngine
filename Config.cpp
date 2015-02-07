@@ -19,10 +19,12 @@ float Config::SWITCH_SCENE_TIME = 0.5;
 std::string Config::MAP_PATH = "map/";
 std::string Config::NPC_PATH = "npc/";
 std::string Config::EVENT_PATH = "event/";
+std::string Config::BATTLE_RESOURCE = "Battle/";
 std::string Config::NPC_SCRIPT = "xml\\NPC.xml";
 std::string Config::MAP_SCRIPT = "xml\\MAP.xml";
 std::string Config::SCENE_SCRIPT = "xml\\SCENE.xml";
 std::string Config::EVENT_SCRIPT = "xml\\EVENT.xml";
+
 
 std::string Config::PROPERTIE_BLOCKED = "Blocked";
 std::string Config::PROPERTIE_BRIDGE = "SceneId";

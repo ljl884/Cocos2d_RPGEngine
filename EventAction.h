@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+
 class Perform;
 using namespace cocos2d;
 enum Action_Type{
@@ -22,6 +23,10 @@ class MoveAction : public EventAction
 {
 public:
 	MoveAction();
+	virtual void playEvent(Perform *perform);
+	std::string targetName;
+	std::string direction;
+	float distance;
 };
 class DialogAction :public EventAction
 {

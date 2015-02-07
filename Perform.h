@@ -25,6 +25,7 @@ public:
 	void setMainCharacter(Character *mainCharacter);
 	void setStage(Stage *_stage);
 	void setDialog(Dialog *dialog);
+	void moveMainCharacter(Character_Direction direction, int distance);
 	void startMovingMainCharacter(Character_Direction direction);
 	void stopMovingMainCharacter();
 	void stopMovingMainCharacter(Character_Direction direction);

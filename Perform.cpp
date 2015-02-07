@@ -57,6 +57,10 @@ void Perform::onMovingCallback()
 	//CCLOG("action  end!!!!!");
 	startMovingMainCharacter(mainCharacter->movingDirection);
 }
+void Perform::moveMainCharacter(Character_Direction direction, int distance)
+{
+	mainCharacter->moveToDirectionBy(direction, distance);
+}
 void Perform::startMovingMainCharacter(Character_Direction direction)
 {
 	

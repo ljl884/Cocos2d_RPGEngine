@@ -34,6 +34,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
         glview = GLViewImpl::create("My Game");
         director->setOpenGLView(glview);
     }
+	//glview->setFrameSize(1280, 720);
+	//glview->setFrameZoomFactor(0.6f);
+	//glview->setDesignResolutionSize(1280, 720, kResolutionExactFit);
+
 
     // turn on display FPS
     director->setDisplayStats(true);
@@ -44,9 +48,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
    // auto scene = HelloWorld::createScene();
 
-	auto scene = SceneBuilder::BuildScene("dormitory");
+	//auto scene = SceneBuilder::BuildScene("dormitory");
+	auto bscene = SceneBuilder::BuildBattleScene();
+
     // run
-    director->runWithScene(scene);
+    director->runWithScene(bscene);
 
     return true;
 }

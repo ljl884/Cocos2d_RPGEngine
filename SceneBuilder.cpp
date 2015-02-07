@@ -108,3 +108,8 @@ Scene *SceneBuilder::BuildScene(std::string sceneId,std::string mainCharacterPos
 
 }
 
+Scene* SceneBuilder::BuildBattleScene()
+{
+	auto battleScene = new BattleScene();
+	return battleScene;
+}

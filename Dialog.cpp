@@ -16,11 +16,16 @@ Dialog::Dialog(std::string dialogBarFilename)
 	dialogBar->setVisible(false);
 	this->addChild(dialogBar);
 
+	//Head img
+	//Sprite* head = CCSprite::create("POI.png");
+	//head->setPosition(100, 100);
+	//this->addChild(head);
+
 	//initialize label
 	label = Label::createWithTTF("Hello", Config::DIALOG_FONT, Config::DIALOG_FONT_SIZE);
 	label->setAlignment(TextHAlignment::LEFT);
 	label->setColor(Color3B::BLACK);
-	label->setPosition(Vec2(dialogBar->getContentSize().width*0.5,dialogBar->getContentSize().height*0.95));
+	label->setPosition(Vec2(dialogBar->getContentSize().width*0.6,dialogBar->getContentSize().height*0.95));
 	label->setVisible(false);
 	this->addChild(label);
 }

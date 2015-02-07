@@ -23,6 +23,7 @@ public:
 	static std::string MAP_PATH;
 	static std::string NPC_PATH;
 	static std::string EVENT_PATH;
+	static std::string BATTLE_RESOURCE;
 	static std::string NPC_SCRIPT;
 	static std::string MAP_SCRIPT;
 	static std::string SCENE_SCRIPT;

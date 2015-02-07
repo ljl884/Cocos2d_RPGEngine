@@ -53,7 +53,7 @@ bool HelloWorld::init()
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
-		  
+	
     return true;
 }
 
