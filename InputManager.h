@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef  _INPUT_MANAGER_
 #define  _INPUT_MANAGER_
 

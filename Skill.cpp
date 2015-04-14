@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "Skill.h"
 #include "BattleHero.h"
 Skill* Skill::create(BattleHero* h){

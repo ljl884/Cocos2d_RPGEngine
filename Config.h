@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _CONFIG_
 #define _CONFIG_
 #include "cocos2d.h"

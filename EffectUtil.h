@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _EFFECT_UTIL_H_
 #define _EFFECT_UTIL_H_
 #include "cocos2d.h"

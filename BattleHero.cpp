@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "BattleHero.h"
 #include "SkillImpl.h"
 #include "EffectUtil.h"

@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _PERFROM_
 #define _PERFROM_
 
@@ -56,7 +61,7 @@ protected:
 	bool isNextPositionBlocked(Character_Direction direction);
 	bool mapShouldScroll(Character_Direction direction);
 	int remainingDistanceToMapEdge(Character_Direction direction);
-	Operation_Status operationStatus = freeMoving;
+	Operation_Status operationStatus;
 	std::queue<EventAction*> actionQueue;
 
 

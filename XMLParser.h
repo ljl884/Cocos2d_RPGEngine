@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:Coumponent to Parse XML Script
+*************************************************/
 #ifndef _XML_PARSER_
 #define _XML_PARSER_
 
@@ -15,6 +20,8 @@ enum ScriptType
 	scene = 2,
 	event=3
 };
+
+/* Here defines servral data model class. These objects would be the return values of the core functions of XMLParser*/
 class XMLNPC
 {
 public:
@@ -29,9 +36,9 @@ public:
 class XMLScene
 {
 public:
-	std::string mapName="";
-	std::string mainCharacterName="";
-	std::string mainCharacterPosition="";
+	std::string mapName;
+	std::string mainCharacterName;
+	std::string mainCharacterPosition;
 	std::list<std::string> npcNames;
 	std::list<std::string> npcPositions;
 };
@@ -41,9 +48,12 @@ class XMLEvent
 public:
 	std::queue<EventAction*> actions;
 }; 
+
+//-------------------------------------------------------------
 class XMLParser
 {
 public:
+	//XMLParser is a singleton class which ensures the script file will be read only once
 	static XMLParser* getInstance()
 	{
 		if (instance == NULL)

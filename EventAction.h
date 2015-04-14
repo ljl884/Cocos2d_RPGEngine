@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _EVENT_ACTION_
 #define _EVENT_ACTION_
 

@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _BATTLE_LAYER_
 #define _BATTLE_LAYER_
 

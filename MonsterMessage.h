@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _MONSTER_MESSAGE_H_
 #define _MONSTER_MESSAGE_H_
 #include "cocos2d.h"

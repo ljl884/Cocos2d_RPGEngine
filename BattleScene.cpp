@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "BattleScene.h"
 #include"cocostudio/CocoStudio.h" 
 #include "ui/CocosGUI.h"

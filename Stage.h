@@ -1,3 +1,9 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description: Stage class keeps map information and
+characters position. 
+*************************************************/
 #ifndef _STAGE_
 #define _STAGE_
 
@@ -54,7 +60,7 @@ protected:
 	Node background;
 	TMXTiledMap *map;
 	Sprite *mapImg;
-	std::list<Point> *unavailablePositions=NULL;
+	std::list<Point> *unavailablePositions;
 	Size mapSize;
 	Sprite *mainCharacter;
 };

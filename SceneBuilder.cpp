@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "SceneBuilder.h"
 #include "Character.h"
 #include "Perform.h"

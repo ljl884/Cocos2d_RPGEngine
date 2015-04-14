@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "BattleCharacter.h"
 #include "Config.h"
 #include "BattleLayer.h"
@@ -127,7 +132,7 @@ void BattleCharacter::initHpSlider(){
 void BattleCharacter::update(float dt){
 	update_attackTarget();
 	update_trace();
-	update_checkHL();
+	//update_checkHL();
 	update_pos();
 	update_hp();
 }

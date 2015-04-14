@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef __CHARACTER_H__
 #define __CHARACTER_H__
 
@@ -42,7 +47,7 @@ public:
 	void stopMoving();
 	void changeFacingDirection(Character_Direction newDirection);
 	void playMovingAnimation(Character_Direction direction);
-	bool isMoving = false;
+	bool isMoving;
 	void moveoverCallBack(void);
 	bool isNextPositionBlocked();
 	Character_Direction facingDirection;

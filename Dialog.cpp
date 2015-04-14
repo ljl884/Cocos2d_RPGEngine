@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "Dialog.h"
 #include"Config.h"
 
@@ -6,7 +11,7 @@
 
 Dialog::Dialog(std::string dialogBarFilename)
 {
-
+	currentIndex = 0
 	this->isPlayingAction = false;
 	//initialize dialog bar
 	dialogBar = CCSprite::create(dialogBarFilename);

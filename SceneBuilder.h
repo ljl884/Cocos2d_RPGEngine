@@ -1,3 +1,9 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description: SceneBuilder binds all related components
+togeter and create a scene
+*************************************************/
 #ifndef _SCENE_BUILDER_
 #define _SCENE_BUILDER_
 

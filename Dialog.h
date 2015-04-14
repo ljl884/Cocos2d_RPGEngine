@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _DIALOG_
 #define _DIALOG_
 
@@ -21,7 +26,7 @@ protected:
 	Sprite *dialogBar;
 	Label *label;
 	std::list<std::string> wordsToBeDisplayed;
-	int currentIndex=0;
+	int currentIndex;
 	void split(const std::string& src, const std::string& separator, std::vector<std::string>& dest);
 	bool isPlayingAction;
 };

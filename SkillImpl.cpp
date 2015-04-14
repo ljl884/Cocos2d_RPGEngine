@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "SkillImpl.h"
 #include "BattleHero.h"
 #include "BattleLayer.h"

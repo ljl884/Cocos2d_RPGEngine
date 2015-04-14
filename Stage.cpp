@@ -1,3 +1,9 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:Stage class keeps map information and
+characters position. 
+*************************************************/
 #include "Stage.h"
 #include "Config.h"
 

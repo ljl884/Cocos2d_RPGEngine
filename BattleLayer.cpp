@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "BattleLayer.h"
 #include"BattleCharacter.h"
 #include "BattleHero.h"
@@ -125,17 +130,22 @@ void BattleLayer::onTouchEnded(Touch* touch, Event* event){
 
 void BattleLayer::initTeam()
 {
-	BattleHero* hero = BattleHero::create("Hero_Gunner", this);
-	hero->setPosition(Point(100,380));
+	BattleHero* hero = BattleHero::create("HuoChaiRen", this);
+	hero->setScale(0.4);
+	hero->setPosition(Point(500,100));
 	hero->setDesPoint(Point(200, 380));
 	this->addCharacter(hero);
 	
 	
-	BattleCharacter* hero2 = BattleCharacter::create("Monster1", this);
-	hero2->setPosition(Point(500, 380));
-	hero2->setDesPoint(Point(200, 380));
-	this->addCharacter(hero2);
 
+
+	for (int i = 0; i < 5; i++){
+		BattleHero* hero2 = BattleHero::create("HuoChaiRen", this);
+		hero2->setScale(0.4);
+		hero2->setPosition(Point(100*i, 380));
+		hero2->setDesPoint(Point(200, 380));
+		this->addCharacter(hero2);
+	}
 
 	
 }

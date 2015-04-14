@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "Bullet.h"
 
 #include "BattleMonster.h"
@@ -18,7 +23,7 @@ Bullet* Bullet::createWithTarget(BattleCharacter* sender, BattleCharacter** targ
 bool Bullet::initWithTarget(BattleCharacter* sender, BattleCharacter** targetPtr){
 	m_damage = 0;
 	m_effect = 0;
-	m_bullet = Sprite::create("Battle/Bullet/" + sender->getBulletImg());
+	m_bullet = Sprite::create(sender->getBulletImg());
 	setDamage(sender->getAtk());
 	setHateValue(sender->getAtkHateValue());
 	if (sender->getRoleType() == BattleCharacter::ROLE_TYPE_HERO){

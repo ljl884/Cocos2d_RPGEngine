@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #include "Config.h"
 
 int Config::NPC_ACTIVATE_DISTANCE_X = 30;

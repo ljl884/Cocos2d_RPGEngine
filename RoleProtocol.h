@@ -1,3 +1,8 @@
+/************************************************
+Author: Wentao Li
+Date:14-4-2015
+Description:
+*************************************************/
 #ifndef _ROLEPROTOCOL_H_  
 #define _ROLEPROTOCOL_H_ 
 
